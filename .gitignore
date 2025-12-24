@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Runtime Data
+api/output/*
+!api/output/.gitkeep
+api/uploads/*
+!api/uploads/.gitkeep
