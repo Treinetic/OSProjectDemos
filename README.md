@@ -6,6 +6,7 @@ Welcome to the official showcase for **Treinetic's Open Source Libraries**. This
 
 *   **[PDFLib](https://github.com/imalhasaranga/PDFLib)**: A robust library for PDF manipulation (Merge, Split, Encrypt, Convert, OCR, and more).
 *   **[ImageArtist](https://github.com/treinetic/ImageArtist)**: An elegant, fluent image manipulation toolkit (Resize, Crop, Overlay, Shapes, Filters).
+*   **[VideoRecorderJs](https://github.com/imalhasaranga/VideoRecorderJs)**: Modern HTML5 Video & Screen Recording Library.
 
 ---
 

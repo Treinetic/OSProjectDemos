@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 
 import PDFLibApp from './lib/pdflib/App';
 import ImageArtistApp from './lib/imageartist/App';
+import VideoRecorderApp from './lib/videorecorder/App';
 
 // Import CSS
 import './index.css';
@@ -16,6 +17,7 @@ export default function RootApp() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/pdflib" element={<PDFLibWrapper />} />
         <Route path="/imageartist" element={<ImageArtistWrapper />} />
+        <Route path="/videorecorder" element={<VideoRecorderWrapper />} />
       </Routes>
     </BrowserRouter>
   );
@@ -32,6 +34,13 @@ const ImageArtistWrapper = () => (
   <div>
     <BackToHome />
     <ImageArtistApp />
+  </div>
+);
+
+const VideoRecorderWrapper = () => (
+  <div>
+    <BackToHome />
+    <VideoRecorderApp />
   </div>
 );
 
@@ -108,6 +117,23 @@ function LandingPage() {
 
             <div className="demo-btn" style={{ marginTop: 'auto', width: 'auto', padding: '0.5rem 1.5rem', background: 'rgba(236, 72, 153, 0.1)', color: '#ec4899' }}>
               Enter Studio <Icons.ArrowRight size={16} />
+            </div>
+          </Link>
+
+          {/* VideoRecorder Card */}
+          <Link
+            to="/videorecorder"
+            className="card videorecorder-card"
+            style={{ textDecoration: 'none', height: '320px', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}
+          >
+            <div className="card-icon" style={{ width: '64px', height: '64px', fontSize: '2rem', color: '#f59e0b', borderColor: 'rgba(245, 158, 11, 0.2)' }}>
+              <Icons.Video />
+            </div>
+            <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>VideoRecorder</h2>
+            <p>Modern HTML5 Video & Screen Recording Library.</p>
+
+            <div className="demo-btn" style={{ marginTop: 'auto', width: 'auto', padding: '0.5rem 1.5rem', background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}>
+              Start Recording <Icons.ArrowRight size={16} />
             </div>
           </Link>
         </div>

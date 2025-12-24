@@ -238,6 +238,10 @@ buttons {
   border-color: var(--pink-border);
 }
 
+.videorecorder-card:hover {
+  border-color: #f59e0b;
+}
+
 .card-icon {
   width: 48px;
   height: 48px;
