@@ -1,0 +1,23 @@
+{
+    "name": "antigravity/pdflib-demo",
+    "description": "Demo for PDFLib",
+    "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/imalhasaranga/PDFLib"
+        }
+    ],
+    "require": {
+        "imal-h/pdf-box": "dev-master",
+        "treinetic/imageartist": "^1.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Antigravity",
+            "email": "bot@google.com"
+        }
+    ]
+}
