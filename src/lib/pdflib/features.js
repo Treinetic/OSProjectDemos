@@ -21,7 +21,7 @@ $pdfLib->setPdfPath('doc.pdf')
     description: "Combine a list of images into a single, optimized PDF file.",
     icon: "FilePlus",
     demoType: "upload-multi", // Now supported
-    endpoint: "http://localhost:8000/api/images-to-pdf.php",
+    endpoint: `${API_BASE}/api/images-to-pdf.php`,
     accept: "image/*", // IMPORTANT: Accept images
     buttonText: "Create PDF (Select Images)",
     code: `$pdfLib = new PDFLib();
@@ -34,7 +34,7 @@ $pdfLib->makePDF('output.pdf', $images);`
     description: "Reduce file size significantly using Ghostscript optimization presets.",
     icon: "Minimize2",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/compress.php",
+    endpoint: `${API_BASE}/api/compress.php`,
     accept: ".pdf",
     buttonText: "Compress PDF",
     code: `$pdfLib = new PDFLib();
@@ -47,7 +47,7 @@ $pdfLib->compress('large.pdf', 'opt.pdf', PDFLib::$COMPRESSION_EBOOK);`
     description: "Combine multiple PDF documents into a single unified file.",
     icon: "Merge",
     demoType: "upload-multi", 
-    endpoint: "http://localhost:8000/api/merge.php",
+    endpoint: `${API_BASE}/api/merge.php`,
     accept: ".pdf",
     buttonText: "Merge PDFs (Upload 2+)",
     code: `$pdfLib = new PDFLib();
@@ -60,7 +60,7 @@ $pdfLib->merge($files, 'merged.pdf');`
     description: "Extract specific pages or ranges into new PDF files.",
     icon: "Scissors",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/split.php",
+    endpoint: `${API_BASE}/api/split.php`,
     accept: ".pdf",
     buttonText: "Split PDF (Page 1)",
     code: `$pdfLib = new PDFLib();
@@ -73,7 +73,7 @@ $pdfLib->split('1-5', 'chapter1.pdf', 'source.pdf');`
     description: "Secure your PDFs with passwords and permission restrictions.",
     icon: "Lock",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/encrypt.php",
+    endpoint: `${API_BASE}/api/encrypt.php`,
     accept: ".pdf",
     buttonText: "Encrypt PDF",
     code: `$pdfLib = new PDFLib();
@@ -90,7 +90,7 @@ $pdfLib->encrypt(
     description: "Add text watermarks to pages for branding or security.",
     icon: "Stamp",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/watermark.php",
+    endpoint: `${API_BASE}/api/watermark.php`,
     accept: ".pdf",
     buttonText: "Add Watermark",
     code: `$pdfLib = new PDFLib();
@@ -106,7 +106,7 @@ $pdfLib->addWatermarkText(
     description: "Generate preview thumbnails of the first page.",
     icon: "FileImage",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/thumbnail.php",
+    endpoint: `${API_BASE}/api/thumbnail.php`,
     accept: ".pdf",
     buttonText: "Generate Thumbnail",
     code: `$pdfLib = new PDFLib();
@@ -118,7 +118,7 @@ $pdfLib->createThumbnail('thumb.jpg', 200, 'source.pdf');`
     description: "Convert PDFs to specific versions for compatibility.",
     icon: "RefreshCw",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/version.php",
+    endpoint: `${API_BASE}/api/version.php`,
     accept: ".pdf",
     buttonText: "Convert to v1.4",
     code: `$pdfLib = new PDFLib();
@@ -130,7 +130,7 @@ $pdfLib->convertToVersion('1.4', 'compat.pdf', 'source.pdf');`
     description: "Read and write PDF metadata properties.",
     icon: "Tag",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/metadata.php",
+    endpoint: `${API_BASE}/api/metadata.php`,
     accept: ".pdf",
     buttonText: "Update Metadata",
     code: `$pdfLib = new PDFLib();
@@ -145,7 +145,7 @@ $pdfLib->setMetadata([
     description: "Rotate pages by 90, 180, or 270 degrees.",
     icon: "RotateCw",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/rotate.php",
+    endpoint: `${API_BASE}/api/rotate.php`,
     accept: ".pdf",
     buttonText: "Rotate 90°",
     code: `$pdfLib = new PDFLib();
@@ -157,7 +157,7 @@ $pdfLib->rotateAll(90, 'rotated.pdf', 'source.pdf');`
     description: "Make interactive form fields permanent and non-editable.",
     icon: "Layout",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/flatten.php",
+    endpoint: `${API_BASE}/api/flatten.php`,
     accept: ".pdf",
     buttonText: "Flatten Forms",
     code: `$pdfLib = new PDFLib();
@@ -169,7 +169,7 @@ $pdfLib->flatten('flat.pdf', 'form.pdf');`
     description: "Convert to PDF/A standards for long-term archiving.",
     icon: "Archive",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/pdfa.php",
+    endpoint: `${API_BASE}/api/pdfa.php`,
     accept: ".pdf",
     buttonText: "Convert to PDF/A",
     code: `$pdfLib = new PDFLib();
@@ -181,7 +181,7 @@ $pdfLib->convertToPDFA('archive.pdf', 'source.pdf');`
     description: "Extract text from scanned documents using Tesseract.",
     icon: "ScanText",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/ocr.php",
+    endpoint: `${API_BASE}/api/ocr.php`,
     accept: ".pdf",
     buttonText: "Perform OCR (English)",
     code: `$pdfLib = new PDFLib();

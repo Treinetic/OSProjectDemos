@@ -8,13 +8,15 @@ const IconComponent = ({ name, size = 24, className }) => {
     return <Icon size={size} className={className} />;
 };
 
+const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:8000';
+
 const artistFeatures = [
     {
         id: 1,
         title: 'Resize',
         icon: 'Minimize',
         desc: 'Scale images to any dimension',
-        endpoint: 'http://localhost:8000/api/imageartist/resize.php',
+        endpoint: `${API_BASE}/api/imageartist/resize.php`,
         code: `$img = new Image("source.jpg");
 $img->resize(400, 300);
 $img->save("resized.jpg");`
@@ -24,7 +26,7 @@ $img->save("resized.jpg");`
         title: 'Crop',
         icon: 'Crop',
         desc: 'Cut specific areas of an image',
-        endpoint: 'http://localhost:8000/api/imageartist/crop.php',
+        endpoint: `${API_BASE}/api/imageartist/crop.php`,
         code: `$img = new Image("source.jpg");
 // x, y, width, height
 $img->crop(50, 50, 300, 300);
@@ -35,7 +37,7 @@ $img->save("cropped.jpg");`
         title: 'Rotate',
         icon: 'RotateCw',
         desc: 'Rotate images by degrees',
-        endpoint: 'http://localhost:8000/api/imageartist/rotate.php',
+        endpoint: `${API_BASE}/api/imageartist/rotate.php`,
         code: `$img = new Image("source.jpg");
 $img->rotate(90);
 $img->save("rotated.jpg");`
@@ -45,7 +47,7 @@ $img->save("rotated.jpg");`
         title: 'Flip',
         icon: 'FlipHorizontal',
         desc: 'Mirror images horizontally/vertically',
-        endpoint: 'http://localhost:8000/api/imageartist/flip.php',
+        endpoint: `${API_BASE}/api/imageartist/flip.php`,
         code: `$img = new Image("source.jpg");
 $img->flipH(); // or flipV()
 $img->save("flipped.jpg");`
@@ -55,7 +57,7 @@ $img->save("flipped.jpg");`
         title: 'Text Watermark',
         icon: 'Type',
         desc: 'Add branded text overlays',
-        endpoint: 'http://localhost:8000/api/imageartist/text.php',
+        endpoint: `${API_BASE}/api/imageartist/text.php`,
         code: `$img = new Image("source.jpg");
 $box = new TextBox(200, 50);
 $box->setText("Treinetic");
@@ -67,7 +69,7 @@ $img->save("result.jpg");`
         title: 'Image Watermark',
         icon: 'Image',
         desc: 'Overlay logos or other images',
-        endpoint: 'http://localhost:8000/api/imageartist/overlay.php',
+        endpoint: `${API_BASE}/api/imageartist/overlay.php`,
         code: `$img = new Image("source.jpg");
 $overlay = new Overlay($w, $h, $color);
 $img->merge($overlay, 0, 0);
@@ -78,7 +80,7 @@ $img->save("result.jpg");`
         title: 'Geometric Shapes',
         icon: 'Hexagon',
         desc: 'Create circles, triangles, and polygons',
-        endpoint: 'http://localhost:8000/api/imageartist/shape.php',
+        endpoint: `${API_BASE}/api/imageartist/shape.php`,
         code: `$circle = new CircularShape("source.jpg");
 $circle->build();
 $circle->save("circle.png", IMAGETYPE_PNG);`
@@ -88,7 +90,7 @@ $circle->save("circle.png", IMAGETYPE_PNG);`
         title: 'Merge Images',
         icon: 'Layers',
         desc: 'Combine multiple photos into one',
-        endpoint: 'http://localhost:8000/api/imageartist/merge.php',
+        endpoint: `${API_BASE}/api/imageartist/merge.php`,
         code: `$base = new Image("base.jpg");
 $layer = new Image("layer.png");
 $base->merge($layer, 100, 100);
@@ -385,7 +387,7 @@ function ArtistGame() {
         formData.append('action', 'init');
 
         try {
-            const res = await fetch('http://localhost:8000/api/imageartist/game.php', { method: 'POST', body: formData });
+            const res = await fetch(`${API_BASE}/api/imageartist/game.php`, { method: 'POST', body: formData });
             const data = await res.json();
             if (data.success) {
                 setImage(data.url);

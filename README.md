@@ -18,9 +18,15 @@ Follow these steps to set up the project locally.
 
 *   **PHP 8.0+** (with GD and Imagick extensions recommended)
 *   **Composer**
-*   **Node.js** (v18+) & **npm**
+*   **Nodes.js** (v18+) & **npm**
 *   **Ghostscript** (Required for PDFLib features)
 *   **Tesseract OCR** (Required for PDFLib OCR features)
+
+> **💡 Quick Setup for Ubuntu**
+> You can use the included helper script to install all system and project dependencies at once:
+> ```bash
+> ./install_dependencies.sh
+> ```
 
 ### Installation
 
@@ -40,28 +46,96 @@ Follow these steps to set up the project locally.
     npm install
     ```
 
-### Running the Application
+### Running Locally (Development)
 
-This project consists of a **PHP Backend** (serving API endpoints) and a **React Frontend** (Vite). You need to run both.
+This project consists of a **PHP Backend** (serving API endpoints) and a **React Frontend** (Vite).
 
 **Option 1: Concurrent Command (Recommended)**
 ```bash
+# This runs both the PHP built-in server (port 8000) and Vite dev server (port 5173)
 npm run start
-# OR manually:
-php -S localhost:8000 -t . & npm run dev
 ```
 
-**Option 2: Individual Terminals**
-*   Terminal 1 (Backend):
+**Option 2: Manual Start**
+1.  Start PHP Server:
     ```bash
     php -S localhost:8000 -t .
     ```
-*   Terminal 2 (Frontend):
+2.  Start Frontend:
     ```bash
     npm run dev
     ```
 
-The application will be accessible at **http://localhost:5173** (or the port shown in your terminal).
+Access the application at **http://localhost:5173**.
+
+---
+
+## 🚀 Production Deployment
+
+To deploy this project to a live server (Apache/Nginx):
+
+### 1. Build the Frontend
+Generate the optimized static assets for the React application.
+```bash
+npm run build
+```
+This creates a `dist/` directory containing the `index.html` and assets.
+
+### 2. server Configuration
+You need to serve the `dist/` directory as the frontend and ensure the `api/` directory is accessible for PHP requests.
+
+#### **Apache (Recommended)**
+Ensure your server has `mod_rewrite` enabled.
+1.  Point your `DocumentRoot` to the project folder.
+2.  Ensure the `dist/` folder contents are served for the root URL.
+3.  Ensure requests to `/api/*` are routed to the `api/` directory.
+
+**Example `.htaccess` at project root:**
+```apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Serve API requests directly to PHP files
+    RewriteRule ^api/ - [L]
+
+    # For all other requests, serve the index.html from dist (SPA Routing)
+    RewriteCond %{REQUEST_URI} !^/api/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.html [L]
+</IfModule>
+```
+*Note: You may need to copy `dist/index.html` and `dist/assets` to the root for the above simple config, or alias the DocumentRoot to `dist/` and alias `/api` back to the root `api/` folder depending on your preference.*
+
+#### **Nginx**
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    root /path/to/project/dist; # Serve the build output by default
+    index index.html;
+
+    # Frontend Routing (SPA)
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # API Requests
+    location /api/ {
+        alias /path/to/project/api/; # Point to the actual API source code
+        try_files $uri $uri/ =404;
+
+        location ~ \.php$ {
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+            fastcgi_pass unix:/var/run/php/php8.2-fpm.sock; # Adjust PHP version
+        }
+    }
+}
+```
+
+### 3. Environment Config
+The build process automatically sets the API base URL to be relative (e.g., `/api/...`) instead of `localhost:8000`. Ensure your server serves the API at the same domain/origin as the frontend.
 
 ---
 
