@@ -227,7 +227,7 @@ const LandingPage = () => {
               path="/epubreader"
               buttonText="Open Reader"
               className="epubreader-card"
-              repoSlug="treinetic/treinetic-epub-reader"
+              repoSlug="treinetic/TreineticEpubReader"
             />
 
           </div>

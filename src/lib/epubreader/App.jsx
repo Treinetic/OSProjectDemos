@@ -443,7 +443,17 @@ function ReaderDemo() {
                 </AnimatePresence>
 
                 {/* Reader Area */}
-                <main style={{ flex: 1, position: 'relative', height: '100%', overflow: 'hidden' }}>
+                <main
+                    style={{ flex: 1, position: 'relative', height: '100%', overflow: 'hidden' }}
+                    onMouseEnter={() => {
+                        // Lock body scroll when mouse enters reader
+                        document.body.style.overflow = 'hidden';
+                    }}
+                    onMouseLeave={() => {
+                        // Restore body scroll when mouse leaves
+                        document.body.style.overflow = 'auto';
+                    }}
+                >
                     <div
                         id="epub-reader-frame"
                         style={{
