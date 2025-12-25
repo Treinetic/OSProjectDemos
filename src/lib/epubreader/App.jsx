@@ -63,7 +63,7 @@ export default function EpubReaderApp() {
                 <section className="max-w-container" style={{ paddingBottom: '4rem' }}>
                     {/* Demo Container */}
                     <div className="demo-wrapper" style={{
-                        maxWidth: '1000px',
+                        maxWidth: '1100px',
                         margin: '0 auto',
                         height: '650px',
                         background: 'var(--bg-panel)',
@@ -103,121 +103,131 @@ export default function EpubReaderApp() {
             </main>
 
             <style>{`
-                /* Reader Specific Styles */
-                .sidebar-section { padding: 1.5rem; }
+                /* Reader Specific Theme Overrides */
+                .epubreader-card {
+                    --primary: #10b981;
+                    --primary-glow: rgba(16, 185, 129, 0.4);
+                }
+
+                /* Reader Internal Styles */
+                /* Ensure Sidebar Text is visible on white background */
+                .sidebar-section { padding: 2rem; }
                 .sidebar-section h3 { 
-                    font-size: 0.7rem; 
+                    font-size: 0.75rem; 
                     font-weight: 800; 
-                    color: var(--text-muted); 
-                    margin-bottom: 1.25rem; 
+                    color: #94a3b8; /* Slate-400 */
+                    margin-bottom: 1.5rem; 
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
                 }
                 
-                .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 2rem; }
+                .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
                 .theme-btn {
-                    display: flex; flex-direction: column; alignItems: center; gap: 0.5rem;
-                    padding: 0.75rem 0.5rem; 
-                    border-radius: 12px; 
+                    display: flex; flex-direction: column; alignItems: center; gap: 0.75rem;
+                    padding: 1rem 0.5rem; 
+                    border-radius: 16px; 
                     cursor: pointer;
-                    border: 1px solid var(--border);
+                    border: 1px solid #e2e8f0; /* Light border */
                     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
                     position: relative;
                     overflow: hidden;
+                    background: #f8fafc; /* Slate-50 */
+                }
+                .theme-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-color: #10b981; }
+                .theme-btn.active { 
+                    border-color: #10b981; 
+                    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.4);
                     background: #fff;
                 }
-                .theme-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-                .theme-btn.active { 
-                    border-color: var(--primary); 
-                    box-shadow: 0 0 0 1px var(--primary), 0 4px 6px -1px var(--primary-glow);
-                }
-                .theme-btn span { font-size: 0.75rem; font-weight: 600; color: #1a1a1a; }
+                .theme-btn span { font-size: 0.8rem; font-weight: 600; color: #334155; }
 
-                .control-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-                .label { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+                .control-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+                .label { font-size: 0.95rem; font-weight: 600; color: #334155; /* Slate-700 */ }
                 
                 .counter { 
                     display: flex; align-items: center; gap: 0.5rem; 
-                    background: var(--bg-surface); 
-                    padding: 0.25rem; 
-                    border-radius: 12px; 
-                    border: 1px solid var(--border); 
+                    background: #f1f5f9; /* Slate-100 */
+                    padding: 0.35rem; 
+                    border-radius: 14px; 
+                    border: 1px solid #e2e8f0; 
                 }
                 .counter button { 
-                    width: 28px; height: 28px; 
-                    border-radius: 8px; 
+                    width: 32px; height: 32px; 
+                    border-radius: 10px; 
                     display: flex; align-items: center; justify-content: center; 
                     cursor: pointer; 
-                    color: var(--text-main);
+                    color: #334155;
                     border: none;
                     background: #fff;
                     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
                     transition: all 0.2s;
                 }
+                .counter button:hover { color: #10b981; }
                 .counter button:active { transform: scale(0.95); }
-                .counter span { font-size: 0.85rem; min-width: 3rem; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+                .counter span { font-size: 0.9rem; min-width: 3.5rem; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; color: #0f172a; }
 
                 .toggle-group { 
                     display: flex; 
-                    background: var(--bg-surface); 
-                    padding: 4px; 
-                    border-radius: 12px; 
-                    border: 1px solid var(--border);
+                    background: #f1f5f9; 
+                    padding: 5px; 
+                    border-radius: 14px; 
+                    border: 1px solid #e2e8f0;
                 }
                 .toggle-group button { 
-                    padding: 0.4rem 1rem; 
-                    font-size: 0.8rem; 
+                    padding: 0.6rem 1.2rem; 
+                    font-size: 0.85rem; 
                     font-weight: 600; 
-                    border-radius: 8px; 
+                    border-radius: 10px; 
                     cursor: pointer; 
-                    color: var(--text-muted); 
+                    color: #64748b; 
                     border: none;
                     background: transparent;
                     transition: all 0.2s;
                 }
+                .toggle-group button:hover { color: #10b981; }
                 .toggle-group button.active { 
                     background: #fff; 
-                    color: var(--text-main); 
+                    color: #10b981; /* Green active text */
                     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1); 
                 }
 
-                .divider-h { height: 1px; background: var(--border); margin: 0 1.5rem; opacity: 0.5; }
+                .divider-h { height: 1px; background: #e2e8f0; margin: 0 2rem; }
 
-                .nav-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+                .nav-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1rem; }
                 .nav-btn { 
-                    display: flex; align-items: center; justify-content: center; gap: 0.5rem; 
-                    padding: 0.75rem; 
-                    border-radius: 12px; 
-                    border: 1px solid var(--border); 
+                    display: flex; align-items: center; justify-content: center; gap: 0.6rem; 
+                    padding: 0.9rem; 
+                    border-radius: 14px; 
+                    border: 1px solid #e2e8f0; 
                     background: #fff; 
-                    font-size: 0.9rem; 
+                    font-size: 0.95rem; 
                     font-weight: 600; 
-                    color: var(--text-main);
+                    color: #334155;
                     cursor: pointer; 
                     transition: all 0.2s;
                     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
                 }
                 .nav-btn:hover { 
-                    border-color: var(--primary); 
-                    color: var(--primary); 
+                    border-color: #10b981; 
+                    color: #10b981; 
                     transform: translateY(-1px);
-                    box-shadow: 0 4px 6px -1px var(--primary-glow);
+                    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4);
                 }
                 .nav-btn:active { transform: translateY(0); }
 
                 .icon-btn { 
-                    width: 40px; height: 40px;
+                    width: 42px; height: 42px;
                     border-radius: 12px; 
                     cursor: pointer; 
-                    color: var(--text-muted); 
+                    color: #64748b; 
                     display: flex; align-items: center; justify-content: center; 
                     transition: all 0.2s;
                     border: 1px solid transparent;
                 }
-                .icon-btn:hover { background: var(--bg-hover); color: var(--text-main); }
+                .icon-btn:hover { background: #f1f5f9; color: #0f172a; }
                 .icon-btn.active { 
-                    background: var(--primary-glow); 
-                    color: var(--primary); 
+                    background: rgba(16, 185, 129, 0.15); /* Green Glow */
+                    color: #10b981; /* Emerald Green */
                     border-color: rgba(16, 185, 129, 0.2);
                 }
             `}</style>
@@ -311,21 +321,39 @@ function ReaderDemo() {
             {/* Embedded Toolbar/Navbar */}
             <nav style={{
                 position: 'relative',
-                borderBottom: '1px solid var(--border)',
-                padding: '0 1rem',
+                borderBottom: '1px solid #e2e8f0',
+                padding: '0 1.25rem',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                height: '50px',
-                background: '#fff'
+                height: '60px',
+                background: 'rgba(255,255,255,0.9)',
+                backdropFilter: 'blur(8px)',
+                zIndex: 20
             }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>
-                    Moby Dick - Herman Melville
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{
+                        width: '32px', height: '32px',
+                        borderRadius: '8px',
+                        background: '#10b981',
+                        color: 'white',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                        <Icons.BookOpen size={18} />
+                    </div>
+                    <div>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>Moby Dick</div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 500, color: '#64748b' }}>Herman Melville</div>
+                    </div>
                 </div>
 
                 <div className="nav-actions">
-                    <button onClick={() => setSidebarOpen(!isSidebarOpen)} className={`icon-btn ${isSidebarOpen ? 'active' : ''}`}>
-                        <Icons.Sidebar size={18} />
+                    <button
+                        onClick={() => setSidebarOpen(!isSidebarOpen)}
+                        className={`icon-btn ${isSidebarOpen ? 'active' : ''}`}
+                        title="Toggle Sidebar"
+                    >
+                        <Icons.Sidebar size={20} />
                     </button>
                 </div>
             </nav>
@@ -338,7 +366,7 @@ function ReaderDemo() {
                     {isSidebarOpen && (
                         <motion.aside
                             initial={{ width: 0, opacity: 0 }}
-                            animate={{ width: 260, opacity: 1 }}
+                            animate={{ width: 320, opacity: 1 }}
                             exit={{ width: 0, opacity: 0 }}
                             style={{
                                 background: '#fff',

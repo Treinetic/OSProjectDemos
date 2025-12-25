@@ -10,6 +10,7 @@ import EpubReaderApp from './lib/epubreader/App';
 
 // Import CSS
 import './index.css';
+import { useGithubContributor } from './hooks/useGithubContributor';
 
 export default function RootApp() {
   return (
@@ -71,14 +72,62 @@ const BackToHome = () => (
   </div>
 );
 
-const FeatureCard = ({ title, description, icon, color, path, className, buttonText }) => {
+const FeatureCard = ({ title, description, icon, color, path, className, buttonText, repoSlug }) => {
   const IconComponent = Icons[icon];
+  // Safe hook usage: if no repoSlug, we skip logic inside hook or just ignore result
+  const { contributor } = useGithubContributor(repoSlug);
+
   return (
     <Link
       to={path}
       className={`card ${className}`}
-      style={{ textDecoration: 'none', height: '320px', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}
+      style={{ textDecoration: 'none', height: '320px', alignItems: 'center', textAlign: 'center', justifyContent: 'center', position: 'relative' }}
     >
+      {/* Contributor Badge */}
+      {contributor && (
+        <a
+          href={contributor.url}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            position: 'absolute',
+            top: '1.5rem',
+            left: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            zIndex: 20
+          }}
+          className="contributor-badge"
+          onClick={(e) => e.stopPropagation()} // Prevent card click
+        >
+          <img
+            src={contributor.image}
+            alt={contributor.name}
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              objectFit: 'cover'
+            }}
+          />
+          <span className="contributor-name" style={{
+            fontSize: '0.85rem',
+            fontWeight: 600,
+            color: 'white',
+            background: 'rgba(0,0,0,0.8)',
+            padding: '0.25rem 0.75rem',
+            borderRadius: '99px',
+            opacity: 0,
+            transform: 'translateX(-10px)',
+            transition: 'all 0.2s',
+            whiteSpace: 'nowrap'
+          }}>
+            {contributor.name}
+          </span>
+        </a>
+      )}
+
       <div className="card-icon" style={{ width: '64px', height: '64px', fontSize: '2rem', color: color, borderColor: `${color}33` }}>
         {IconComponent && <IconComponent />}
       </div>
@@ -88,6 +137,13 @@ const FeatureCard = ({ title, description, icon, color, path, className, buttonT
       <div className="demo-btn" style={{ marginTop: 'auto', width: 'auto', padding: '0.5rem 1.5rem', background: `${color}1A`, color: color }}>
         {buttonText} <Icons.ArrowRight size={16} />
       </div>
+
+      <style>{`
+        .contributor-badge:hover .contributor-name {
+          opacity: 1 !important;
+          transform: translateX(0) !important;
+        }
+      `}</style>
     </Link>
   );
 };
@@ -138,6 +194,7 @@ const LandingPage = () => {
               path="/pdflib"
               buttonText="Explore Demo"
               className="pdflib-card"
+              repoSlug="imalhasaranga/PDFLib"
             />
 
             <FeatureCard
@@ -148,6 +205,7 @@ const LandingPage = () => {
               path="/imageartist"
               buttonText="Enter Studio"
               className="imageartist-card"
+              repoSlug="treinetic/ImageArtist"
             />
 
             <FeatureCard
@@ -158,6 +216,7 @@ const LandingPage = () => {
               path="/videorecorder"
               buttonText="Start Recording"
               className="videorecorder-card"
+              repoSlug="imalhasaranga/VideoRecorderJs"
             />
 
             <FeatureCard
@@ -168,6 +227,7 @@ const LandingPage = () => {
               path="/epubreader"
               buttonText="Open Reader"
               className="epubreader-card"
+              repoSlug="treinetic/treinetic-epub-reader"
             />
 
           </div>
