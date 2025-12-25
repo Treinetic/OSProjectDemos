@@ -2,7 +2,9 @@
 
 # Treinetic Open Source Projects Showcase
 
-Welcome to the official showcase for **Treinetic's Open Source Libraries**. This project is a unified web application designed to demonstrate the powerful capabilities of our PHP libraries, such as **PDFLib** and **ImageArtist**, in a modern, interactive environment.
+Welcome to the **Treinetic Open Source Showcase**. 
+
+This interactive application allows you to explore the capabilities of our suite of open-source tools, including powerful **PHP libraries** like PDFLib and ImageArtist, as well as modern **React components** like TreineticEpubReader and VideoRecorderJs.
 
 ## 🚀 Projects Showcased
 
