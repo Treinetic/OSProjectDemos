@@ -47,7 +47,24 @@ Follow these steps to set up the project locally.
     npm install
     ```
 
-### Running Locally (Development)
+### Running with Docker (Recommended)
+This is the easiest way to run the project as it handles all system dependencies (PHP, Apache, Ghostscript, OCR) for you.
+
+1.  **Build the Docker Image:**
+    ```bash
+    npm run docker-build
+    ```
+    *Note: You do NOT need to run `npm run build` locally. The Docker build handles the frontend build process automatically.*
+
+2.  **Start the Container:**
+    ```bash
+    npm run docker-run
+    ```
+
+3.  **Access the Application:**
+    Open [http://localhost:8080](http://localhost:8080) in your browser.
+
+### Running Locally (Manual Development)
 
 This project consists of a **PHP Backend** (serving API endpoints) and a **React Frontend** (Vite).
 
