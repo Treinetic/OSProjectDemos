@@ -67,7 +67,16 @@ function getJobDir()
     return [$jobDir, $jobId];
 }
 
+function getBaseUrl()
+{
+    // Check if HTTPS
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+    // Get host from header (includes port if present)
+    $host = $_SERVER['HTTP_HOST'];
+    return "$protocol://$host";
+}
+
 function outputUrl($jobId, $filename)
 {
-    return 'http://localhost:8000/api/output/' . $jobId . '/' . basename($filename);
+    return getBaseUrl() . '/api/output/' . $jobId . '/' . basename($filename);
 }

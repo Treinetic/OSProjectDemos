@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      # Optional: Mount api folder for development changes if needed, but for "demo" usage, embedded is fine.
+      # User asked for "run it", likely just want to see it work.
+      # I'll stick to a simple run config without volumes for now to match "production build" plan.
+      - ./api:/var/www/html/api

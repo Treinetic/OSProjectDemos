@@ -408,7 +408,7 @@ function ArtistGame() {
         formData.append('action', action);
 
         try {
-            const res = await fetch('http://localhost:8000/api/imageartist/game.php', { method: 'POST', body: formData });
+            const res = await fetch(`${API_BASE}/api/imageartist/game.php`, { method: 'POST', body: formData });
             const data = await res.json();
             if (data.success) {
                 setImage(data.url);

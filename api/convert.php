@@ -57,8 +57,13 @@ try {
     // Scan for generated images
     $images = glob($jobOutputDir . '/*.png');
     $imageUrls = [];
+    // Base URL logic
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+    $host = $_SERVER['HTTP_HOST'];
+    $baseUrl = "$protocol://$host";
+
     foreach ($images as $img) {
-        $imageUrls[] = 'http://localhost:8000/api/output/' . $jobId . '/' . basename($img);
+        $imageUrls[] = $baseUrl . '/api/output/' . $jobId . '/' . basename($img);
     }
 
     jsonResponse(['success' => true, 'images' => $imageUrls]);

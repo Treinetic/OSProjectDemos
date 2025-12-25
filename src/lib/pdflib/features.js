@@ -1,3 +1,5 @@
+const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:8000';
+
 export const features = [
   {
     id: 1,
@@ -5,7 +7,7 @@ export const features = [
     description: "Convert specific pages or the entire document to PNG or JPEG with high fidelity.",
     icon: "Image",
     demoType: "upload",
-    endpoint: "http://localhost:8000/api/convert.php",
+    endpoint: `${API_BASE}/api/convert.php`,
     accept: ".pdf",
     buttonText: "Convert to Images",
     code: `$pdfLib = new PDFLib();
