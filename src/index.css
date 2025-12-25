@@ -239,7 +239,11 @@ buttons {
 }
 
 .videorecorder-card:hover {
-  border-color: #f59e0b;
+  border-color: #f59e0b !important;
+}
+
+.epubreader-card:hover {
+  border-color: #10b981 !important;
 }
 
 .card-icon {
