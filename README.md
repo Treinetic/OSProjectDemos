@@ -1,3 +1,5 @@
+![Treinetic Open Source Projects](./banner.png)
+
 # Treinetic Open Source Projects Showcase
 
 Welcome to the official showcase for **Treinetic's Open Source Libraries**. This project is a unified web application designed to demonstrate the powerful capabilities of our PHP libraries, such as **PDFLib** and **ImageArtist**, in a modern, interactive environment.
