@@ -252,6 +252,21 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+
+      <footer style={{
+        padding: '1.5rem 2rem',
+        textAlign: 'center',
+        borderTop: '1px solid var(--border)',
+        marginTop: 'auto',
+        background: 'rgba(5, 5, 7, 0.5)'
+      }}>
+        <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+          Crafted by <a href="https://treinetic.com" target="_blank" rel="noreferrer" style={{ color: 'white', fontWeight: 600, textDecoration: 'none' }}>Treinetic</a>
+        </div>
+        <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}>
+          Proudly Sri Lankan <span style={{ fontSize: '1rem' }}>🇱🇰</span>
+        </div>
+      </footer>
     </div>
   );
 }

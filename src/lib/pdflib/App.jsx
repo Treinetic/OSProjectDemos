@@ -47,11 +47,11 @@ export default function App() {
 
             <div className="install-box">
               <span className="cmd-prefix">$</span>
-              composer require imalhasaranga/pdf-lib
+              composer require imal-h/pdf-box
               <Icons.Copy
                 size={16}
                 style={{ cursor: 'pointer', marginLeft: 'auto' }}
-                onClick={() => navigator.clipboard.writeText('composer require imalhasaranga/pdf-lib')}
+                onClick={() => navigator.clipboard.writeText('composer require imal-h/pdf-box')}
               />
             </div>
           </div>

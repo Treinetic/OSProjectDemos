@@ -26,7 +26,7 @@ export default function EpubReaderApp() {
                         <span>Treinetic Reader</span>
                     </div>
                     <a
-                        href="https://github.com/treinetic/treinetic-epub-reader"
+                        href="https://github.com/Treinetic/TreineticEpubReader"
                         target="_blank"
                         rel="noreferrer"
                         style={{ color: 'var(--text-muted)' }}
