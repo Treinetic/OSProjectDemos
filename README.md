@@ -5,7 +5,7 @@
 A showcase of powerful libraries built for modern developers.
 
 ```bash
-docker run -d -p 9090:80 treineticprojects/demo_opensource:latest
+docker run --pull always -p 9090:80 treineticprojects/demo_opensource:latest
 ```
 
 Welcome to the **Treinetic Open Source Showcase**. 
@@ -73,7 +73,7 @@ This is the easiest way to run the project as it handles all system dependencies
 
     **Or run manually with custom port:**
     ```bash
-    docker run -d -p 9090:80 treineticprojects/demo_opensource:latest
+    docker run --pull always -p 9090:80 treineticprojects/demo_opensource:latest
     ```
 
 3.  **Access the Application:**

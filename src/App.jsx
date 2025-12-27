@@ -186,10 +186,10 @@ const LandingPage = () => {
               <div
                 className="install-box"
                 style={{ cursor: 'pointer' }}
-                onClick={() => navigator.clipboard.writeText('docker run -d -p 9090:80 treineticprojects/demo_opensource:latest')}
+                onClick={() => navigator.clipboard.writeText('docker run --pull always -p 9090:80 treineticprojects/demo_opensource:latest')}
               >
                 <span className="cmd-prefix">$</span>
-                docker run -d -p 9090:80 treineticprojects/demo_opensource:latest
+                docker run --pull always -p 9090:80 treineticprojects/demo_opensource:latest
                 <Icons.Copy
                   size={16}
                   style={{ marginLeft: '1rem' }}
