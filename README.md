@@ -2,6 +2,12 @@
 
 # Treinetic Open Source Projects Showcase
 
+A showcase of powerful libraries built for modern developers.
+
+```bash
+docker run -d -p 9090:80 treineticprojects/demo_opensource:latest
+```
+
 Welcome to the **Treinetic Open Source Showcase**. 
 
 This interactive application allows you to explore the capabilities of our suite of open-source tools, including powerful **PHP libraries** like PDFLib and ImageArtist, as well as modern **React components** like TreineticEpubReader and VideoRecorderJs.
@@ -63,6 +69,11 @@ This is the easiest way to run the project as it handles all system dependencies
 2.  **Start the Container:**
     ```bash
     npm run docker-run
+    ```
+
+    **Or run manually with custom port:**
+    ```bash
+    docker run -d -p 9090:80 treineticprojects/demo_opensource:latest
     ```
 
 3.  **Access the Application:**

@@ -174,9 +174,28 @@ const LandingPage = () => {
               Treinetic <br />
               <span style={{ color: 'var(--primary)' }}>Open Source Projects</span>
             </h1>
-            <p className="hero-subtitle" style={{ fontSize: '1.5rem', maxWidth: '800px', margin: '0 auto' }}>
+            <p className="hero-subtitle" style={{ fontSize: '1.5rem', maxWidth: '800px', margin: '0 auto 2rem auto' }}>
               A showcase of powerful libraries built for modern developers.
             </p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <div
+                className="install-box"
+                style={{ cursor: 'pointer' }}
+                onClick={() => navigator.clipboard.writeText('docker run -d -p 9090:80 treineticprojects/demo_opensource:latest')}
+              >
+                <span className="cmd-prefix">$</span>
+                docker run -d -p 9090:80 treineticprojects/demo_opensource:latest
+                <Icons.Copy
+                  size={16}
+                  style={{ marginLeft: '1rem' }}
+                />
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
