@@ -74,6 +74,9 @@ RUN echo "<IfModule mod_rewrite.c>\n\
     RewriteRule ^ index.html [L]\n\
 </IfModule>" > /var/www/html/.htaccess
 
+# Copy custom PHP configuration to adjust error handling, resource limits, and required extensions
+COPY php.ini /usr/local/etc/php/php.ini
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
 
