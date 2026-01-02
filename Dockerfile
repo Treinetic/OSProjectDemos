@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libmagickwand-dev \
     ghostscript \
+    pdftk-java \
     tesseract-ocr \
     git \
     unzip \

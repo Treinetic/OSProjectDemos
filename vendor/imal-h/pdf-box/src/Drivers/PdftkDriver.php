@@ -327,7 +327,13 @@ class PdftkDriver implements DriverInterface
     }
     public function getNumberOfPages(string $s): int
     {
-        throw new NotSupportedException("PdftkDriver page count not implemented.");
+        // Use getMetadata to fetch page count
+        // "NumberOfPages" is a standard key from pdftk dump_data
+        $meta = $this->getMetadata($s);
+        if (isset($meta['NumberOfPages'])) {
+            return (int) $meta['NumberOfPages'];
+        }
+        throw new \RuntimeException("Could not determine page count via Pdftk.");
     }
     public function sign(string $c, string $k, string $d, array $o = []): bool
     {
