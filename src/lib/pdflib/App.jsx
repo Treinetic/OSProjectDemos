@@ -291,10 +291,54 @@ function DemoModal({ feature, onClose }) {
               </div>
             ))}
 
+            {/* INTERACTIVE FORM SECTION */}
+            {feature.demoType === 'interactive-form' && file && formFields.length === 0 && (
+              <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                <button
+                  type="button"
+                  onClick={handleAnalyze}
+                  className="action-btn"
+                  style={{ background: 'var(--accent)', marginTop: '0' }}
+                  disabled={analyzing}
+                >
+                  {analyzing ? <Icons.Loader2 className="animate-spin" /> : <Icons.Search size={18} />}
+                  {analyzing ? ' Analyzing PDF...' : ' Analyze Form Fields'}
+                </button>
+              </div>
+            )}
+
+            {feature.demoType === 'interactive-form' && formFields.length > 0 && (
+              <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
+                <h4 style={{ marginBottom: '1rem' }}>Fill Fields:</h4>
+                <div style={{ display: 'grid', gap: '1rem', maxHeight: '300px', overflowY: 'auto' }}>
+                  {formFields.map((field, idx) => (
+                    <div key={idx} className="form-group">
+                      <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                        {field}
+                      </label>
+                      <input
+                        type="text"
+                        name={field}
+                        className="upload-input"
+                        style={{
+                          width: '100%', padding: '0.5rem',
+                          borderRadius: '6px',
+                          border: '1px solid var(--border)',
+                          background: 'var(--bg-card)',
+                          color: 'var(--text-main, #e2e8f0)'
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <button
               type="submit"
               className="action-btn"
-              disabled={(!file && feature.demoType !== 'no-upload') || loading}
+              disabled={(!file && feature.demoType !== 'no-upload') || loading || (feature.demoType === 'interactive-form' && formFields.length === 0)}
+              style={feature.demoType === 'interactive-form' && formFields.length === 0 ? { display: 'none' } : {}}
             >
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>

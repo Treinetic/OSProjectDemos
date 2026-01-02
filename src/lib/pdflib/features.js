@@ -223,17 +223,12 @@ $pdf->from('doc.pdf')
     title: "Form Filling",
     description: "Programmatically fill PDF forms using JSON data.",
     icon: "Edit3",
-    demoType: "upload",
+    demoType: "interactive-form", // New interactive type
     endpoint: `${API_BASE}/api/fill_form.php`,
+    analysisEndpoint: `${API_BASE}/api/get_form_fields.php`,
     accept: ".pdf",
-    buttonText: "Fill Form",
-    customInput: {
-      name: "form_data",
-      label: "Form Data (JSON)",
-      placeholder: '{"Name": "John Doe", "Date": "2024-01-01"}',
-      type: "textarea",
-      defaultValue: '{\n  "calc_subtotal": "550",\n  "calc_total": "600",\n  "cur_date": "2026-01-02",\n  "txt_first_name": "Imal",\n  "txt_last_name": "Hasaranga"\n}'
-    },
+    buttonText: "Fill & Generate",
+    // customInput removed as we generate them dynamically
     code: `$pdf = PDF::init();
 $data = ['Name' => 'John'];
 $pdf->from('form.pdf')
