@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
 // Import the manually defined CSS
 import '../../index.css';
@@ -113,6 +113,35 @@ function DemoModal({ feature, onClose }) {
   const [error, setError] = useState(null);
   const [formFields, setFormFields] = useState([]);
   const [analyzing, setAnalyzing] = useState(false);
+
+  const handleAnalyze = async () => {
+    if (!file) return;
+    setAnalyzing(true);
+    setError(null);
+
+    const formData = new FormData();
+    formData.append('pdf', file);
+
+    try {
+      const response = await fetch(feature.analysisEndpoint, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+
+      if (!data.success) throw new Error(data.error || 'Analysis failed');
+
+      if (data.json_result && Array.isArray(data.json_result)) {
+        setFormFields(data.json_result);
+      } else {
+        throw new Error("No fields found or invalid response format");
+      }
+    } catch (err) {
+      setError("Analysis Failed: " + err.message);
+    } finally {
+      setAnalyzing(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -313,7 +342,7 @@ function DemoModal({ feature, onClose }) {
               <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
                 <h4 style={{ marginBottom: '1rem' }}>Fill Fields:</h4>
                 <div style={{ display: 'grid', gap: '1rem', maxHeight: '300px', overflowY: 'auto' }}>
-                  {formFields.map((field, idx) => (
+                  {formFields.slice(0, 50).map((field, idx) => (
                     <div key={idx} className="form-group">
                       <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                         {field}
@@ -332,6 +361,11 @@ function DemoModal({ feature, onClose }) {
                       />
                     </div>
                   ))}
+                  {formFields.length > 50 && (
+                    <div style={{ color: 'var(--accent)', textAlign: 'center', padding: '0.5rem', fontSize: '0.9rem' }}>
+                      Showing first 50 fields (Total: {formFields.length})
+                    </div>
+                  )}
                 </div>
               </div>
             )}
