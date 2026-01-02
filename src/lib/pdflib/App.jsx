@@ -186,6 +186,23 @@ function DemoModal({ feature, onClose }) {
       });
     }
 
+    // Capture Interactive Form Data
+    if (feature.demoType === 'interactive-form' && formFields.length > 0) {
+      const dataObj = {};
+      formFields.forEach(field => {
+        // Handle both string and object formats for robustness
+        const key = typeof field === 'string' ? field : field.name;
+        if (!key) return;
+
+        const el = e.target.elements[key];
+        if (el && el.value !== undefined && el.value !== '') {
+          dataObj[key] = el.value;
+        }
+      });
+      console.log("Collected Form Data:", dataObj); // Debug
+      formData.append('form_data', JSON.stringify(dataObj));
+    }
+
     try {
       const response = await fetch(feature.endpoint, {
         method: 'POST',
@@ -313,10 +330,19 @@ function DemoModal({ feature, onClose }) {
                 <input
                   type={input.type}
                   name={input.name}
+                  name={input.name}
                   accept={input.accept}
                   placeholder={input.placeholder}
-                  className={input.type === 'file' ? 'upload-input' : ''}
-                  style={input.type === 'file' ? {} : { width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text-main, #e2e8f0)' }}
+                  // Removed 'upload-input' class to prevent absolute positioning overlay issues
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-main, #e2e8f0)',
+                    cursor: 'pointer'
+                  }}
                 // For files, we don't bind value, we handle via name in onSubmit
                 />
               </div>
