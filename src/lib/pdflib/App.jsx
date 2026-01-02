@@ -241,7 +241,16 @@ function DemoModal({ feature, onClose }) {
                     name={feature.customInput.name}
                     placeholder={feature.customInput.placeholder}
                     defaultValue={feature.customInput.defaultValue}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)', minHeight: '100px', fontFamily: 'monospace' }}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border)',
+                      background: 'var(--bg-card)',
+                      color: 'var(--text-main, #e2e8f0)', // Fallback to light gray
+                      minHeight: '100px',
+                      fontFamily: 'monospace'
+                    }}
                     required
                   />
                 ) : (
@@ -250,7 +259,14 @@ function DemoModal({ feature, onClose }) {
                     name={feature.customInput.name}
                     placeholder={feature.customInput.placeholder}
                     className="upload-input" // Reusing style for now
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border)',
+                      background: 'var(--bg-card)',
+                      color: 'var(--text-main, #e2e8f0)'
+                    }}
                     required
                   />
                 )}
