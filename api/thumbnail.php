@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     $paths = handleUpload('pdf');
@@ -9,8 +9,9 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'thumbnail.jpg';
 
-    $pdfLib = new PDFLib();
-    $pdfLib->createThumbnail($outputFile, 200, $source);
+    $pdf = PDF::init();
+    $pdf->from($source);
+    $pdf->thumbnail($outputFile, 200);
 
     jsonResponse([
         'success' => true,

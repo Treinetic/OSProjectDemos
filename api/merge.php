@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     // Expecting 'pdf[]' upload
@@ -13,8 +13,8 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'merged.pdf';
 
-    $pdfLib = new PDFLib();
-    $pdfLib->merge($paths, $outputFile);
+    $pdf = PDF::init();
+    $pdf->merge($paths, $outputFile);
 
     jsonResponse([
         'success' => true,

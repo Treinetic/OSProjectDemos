@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     $paths = handleUpload('pdf');
@@ -11,8 +11,10 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'watermarked.pdf';
 
-    $pdfLib = new PDFLib();
-    $pdfLib->addWatermarkText($text, $outputFile, $source);
+    $pdf = PDF::init();
+    $pdf->from($source)
+        ->watermark($text)
+        ->save($outputFile);
 
     jsonResponse([
         'success' => true,

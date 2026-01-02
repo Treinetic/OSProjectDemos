@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     $paths = handleUpload('pdf');
@@ -12,8 +12,9 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'split.pdf';
 
-    $pdfLib = new PDFLib();
-    $pdfLib->split($range, $outputFile, $source);
+    $pdf = PDF::init();
+    $pdf->from($source);
+    $pdf->split($range, $outputFile);
 
     jsonResponse([
         'success' => true,

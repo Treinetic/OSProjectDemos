@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 $uploadDir = __DIR__ . '/uploads/';
 $outputDir = __DIR__ . '/output/';
@@ -40,19 +40,13 @@ try {
         throw new Exception('Failed to upload file');
     }
 
-    $pdfLib = new PDFLib();
-    $pdfLib->setPdfPath($inputPath);
-
-    // Create a specific folder for this conversion
-    $jobId = uniqid();
-    $jobOutputDir = $outputDir . $jobId;
-    if (!file_exists($jobOutputDir))
-        mkdir($jobOutputDir, 0777, true);
-
-    $pdfLib->setOutputPath($jobOutputDir);
-    $pdfLib->setImageFormat(PDFLib::$IMAGE_FORMAT_PNG);
-    $pdfLib->setDPI(150);
-    $pdfLib->convert();
+    $pdf = PDF::init();
+    $pdf->from($inputPath);
+    $pdf->setOutputPath($jobOutputDir);
+    // v3.1 uses direct driver options
+    $pdf->setOption('format', 'png');
+    $pdf->setOption('resolution', 150);
+    $pdf->convert();
 
     // Scan for generated images
     $images = glob($jobOutputDir . '/*.png');

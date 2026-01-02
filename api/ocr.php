@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     $paths = handleUpload('pdf');

@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "imal-h/pdf-box": "dev-master",
+        "imal-h/pdf-box": "v3.1.3",
         "treinetic/imageartist": "^1.0"
     },
     "minimum-stability": "dev",

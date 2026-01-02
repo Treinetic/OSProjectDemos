@@ -134,6 +134,12 @@ function DemoModal({ feature, onClose }) {
       formData.append('degrees', 90);
     }
 
+    // Capture custom inputs
+    if (feature.customInput) {
+      const inputVal = e.target.elements[feature.customInput.name].value;
+      formData.append(feature.customInput.name, inputVal);
+    }
+
     try {
       const response = await fetch(feature.endpoint, {
         method: 'POST',
@@ -203,6 +209,23 @@ function DemoModal({ feature, onClose }) {
                 <strong>Demo Passwords:</strong><br />
                 User Password: <code>1234</code><br />
                 Owner Password: <code>admin</code>
+              </div>
+            )}
+
+            {/* Custom Input (e.g. for Redaction) */}
+            {feature.customInput && (
+              <div className="form-group" style={{ marginTop: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>
+                  {feature.customInput.label}
+                </label>
+                <input
+                  type={feature.customInput.type}
+                  name={feature.customInput.name}
+                  placeholder={feature.customInput.placeholder}
+                  className="upload-input" // Reusing style for now
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}
+                  required
+                />
               </div>
             )}
 

@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     // Expecting 'pdf[]' upload (files are images)
@@ -15,8 +15,8 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'images.pdf';
 
-    $pdfLib = new PDFLib();
-    $pdfLib->makePDF($outputFile, $paths);
+    $pdf = PDF::init();
+    $pdf->makePDF($paths, $outputFile);
 
     jsonResponse([
         'success' => true,

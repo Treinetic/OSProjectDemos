@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     $paths = handleUpload('pdf');
@@ -9,8 +9,10 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'flattened.pdf';
 
-    $pdfLib = new PDFLib();
-    $pdfLib->flatten($outputFile, $source);
+    $pdf = PDF::init();
+    $pdf->from($source)
+        ->flatten()
+        ->save($outputFile);
 
     jsonResponse([
         'success' => true,

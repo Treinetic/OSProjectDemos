@@ -114,18 +114,7 @@ $pdfLib->addWatermarkText(
     code: `$pdfLib = new PDFLib();
 $pdfLib->createThumbnail('thumb.jpg', 200, 'source.pdf');`
   },
-  {
-    id: 9,
-    title: "Version Conversion",
-    description: "Convert PDFs to specific versions for compatibility.",
-    icon: "RefreshCw",
-    demoType: "upload",
-    endpoint: `${API_BASE}/api/version.php`,
-    accept: ".pdf",
-    buttonText: "Convert to v1.4",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->convertToVersion('1.4', 'compat.pdf', 'source.pdf');`
-  },
+  /* Feature 9 Removed in v3.1 */
   {
     id: 10,
     title: "Metadata Management",
@@ -165,18 +154,7 @@ $pdfLib->rotateAll(90, 'rotated.pdf', 'source.pdf');`
     code: `$pdfLib = new PDFLib();
 $pdfLib->flatten('flat.pdf', 'form.pdf');`
   },
-  {
-    id: 13,
-    title: "PDF/A Conversion",
-    description: "Convert to PDF/A standards for long-term archiving.",
-    icon: "Archive",
-    demoType: "upload",
-    endpoint: `${API_BASE}/api/pdfa.php`,
-    accept: ".pdf",
-    buttonText: "Convert to PDF/A",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->convertToPDFA('archive.pdf', 'source.pdf');`
-  },
+  /* Feature 13 Removed in v3.1 */
   {
     id: 14,
     title: "OCR",
@@ -188,5 +166,38 @@ $pdfLib->convertToPDFA('archive.pdf', 'source.pdf');`
     buttonText: "Perform OCR (English)",
     code: `$pdfLib = new PDFLib();
 $pdfLib->ocr('eng', 'searchable.pdf', 'scanned.pdf');`
+  },
+  {
+    id: 15,
+    title: "Redaction",
+    description: "Permanently remove sensitive text from the document.",
+    icon: "Eraser",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/redact.php`,
+    accept: ".pdf",
+    buttonText: "Redact Text",
+    customInput: {
+      name: "redact_text",
+      label: "Text to Redact",
+      placeholder: "e.g., CONFIDENTIAL",
+      type: "text"
+    },
+    code: `$pdfLib = new PDFLib();
+$pdfLib->load('source.pdf')
+    ->redact('CONFIDENTIAL')
+    ->save('redacted.pdf');`
+  },
+  {
+    id: 16,
+    title: "Signature Validation",
+    description: "Validate digital signatures within the PDF.",
+    icon: "ShieldCheck",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/validate_signature.php`,
+    accept: ".pdf",
+    buttonText: "Validate Signatures",
+    code: `$pdfLib = new PDFLib();
+$valid = $pdfLib->load('signed.pdf')
+    ->validateSignature();`
   }
 ];

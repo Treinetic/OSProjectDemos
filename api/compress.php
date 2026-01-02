@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     $paths = handleUpload('pdf');
@@ -9,9 +9,9 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'compressed.pdf';
 
-    $pdfLib = new PDFLib();
-    // Use 'ebook' level for decent compression/quality trade-off
-    $pdfLib->compress($source, $outputFile, PDFLib::$COMPRESSION_EBOOK);
+    $pdf = PDF::init();
+    // v3.1 API only accepts source and destination
+    $pdf->compress($source, $outputFile);
 
     jsonResponse([
         'success' => true,

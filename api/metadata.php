@@ -1,6 +1,6 @@
 <?php
 require_once 'utils.php';
-use ImalH\PDFLib\PDFLib;
+use ImalH\PDFLib\PDF;
 
 try {
     $paths = handleUpload('pdf');
@@ -15,8 +15,9 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'metadata.pdf';
 
-    $pdfLib = new PDFLib();
-    $pdfLib->setMetadata($metadata, $outputFile, $source);
+    $pdf = PDF::init();
+    $pdf->from($source)
+        ->setMetadata($metadata, $outputFile);
 
     jsonResponse([
         'success' => true,
