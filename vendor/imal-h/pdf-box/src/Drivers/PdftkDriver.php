@@ -95,10 +95,9 @@ class PdftkDriver implements DriverInterface
             'fill_form',
             $fdfFile,
             'output',
-            $destination
+            $destination,
+            'flatten'
         ];
-
-        // Flatten logic moved to command array definition
 
 
         try {
@@ -195,7 +194,11 @@ class PdftkDriver implements DriverInterface
             if (strpos($line, '---') === 0) {
                 // End of previous field
                 if (isset($currentField['FieldName'])) {
-                    $fields[] = $currentField['FieldName'];
+                    $fields[] = [
+                        'name' => $currentField['FieldName'],
+                        'type' => $currentField['FieldType'] ?? 'Text',
+                        'options' => $currentField['Options'] ?? []
+                    ];
                 }
                 $currentField = [];
                 continue;
@@ -205,12 +208,24 @@ class PdftkDriver implements DriverInterface
             if (count($parts) == 2) {
                 $key = trim($parts[0]);
                 $value = trim($parts[1]);
-                $currentField[$key] = $value;
+
+                if ($key === 'FieldStateOption') {
+                    if (!isset($currentField['Options'])) {
+                        $currentField['Options'] = [];
+                    }
+                    $currentField['Options'][] = $value;
+                } else {
+                    $currentField[$key] = $value;
+                }
             }
         }
         // Catch last one
         if (isset($currentField['FieldName'])) {
-            $fields[] = $currentField['FieldName'];
+            $fields[] = [
+                'name' => $currentField['FieldName'],
+                'type' => $currentField['FieldType'] ?? 'Text',
+                'options' => $currentField['Options'] ?? []
+            ];
         }
 
         return $fields;

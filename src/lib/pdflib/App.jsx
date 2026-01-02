@@ -345,22 +345,41 @@ function DemoModal({ feature, onClose }) {
                   {formFields.slice(0, 50).map((field, idx) => (
                     <div key={idx} className="form-group">
                       <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                        {field}
+                        {field.name} <span style={{ fontSize: '0.7em', opacity: 0.7 }}>({field.type})</span>
                       </label>
-                      <input
-                        type="text"
-                        name={field}
-                        // removed className="upload-input" as it hides the input (opacity: 0)
-                        autoComplete="off"
-                        spellCheck="false"
-                        style={{
-                          width: '100%', padding: '0.5rem',
-                          borderRadius: '6px',
-                          border: '1px solid var(--border)',
-                          background: 'var(--bg-card)',
-                          color: 'var(--text-main, #e2e8f0)'
-                        }}
-                      />
+
+                      {field.type === 'Choice' ? (
+                        <select
+                          name={field.name}
+                          style={{
+                            width: '100%', padding: '0.5rem',
+                            borderRadius: '6px',
+                            border: '1px solid var(--border)',
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-main, #e2e8f0)'
+                          }}
+                        >
+                          <option value="">Select an option...</option>
+                          {field.options && field.options.map((opt, i) => (
+                            <option key={i} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          type="text"
+                          name={field.name}
+                          // removed className="upload-input" as it hides the input (opacity: 0)
+                          autoComplete="off"
+                          spellCheck="false"
+                          style={{
+                            width: '100%', padding: '0.5rem',
+                            borderRadius: '6px',
+                            border: '1px solid var(--border)',
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-main, #e2e8f0)'
+                          }}
+                        />
+                      )}
                     </div>
                   ))}
                   {formFields.length > 50 && (
