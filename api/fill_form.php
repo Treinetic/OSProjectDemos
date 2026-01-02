@@ -16,9 +16,16 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'filled.pdf';
 
-    // Use PdftkDriver for form filling (Ghostscript doesn't support it)
-    $pdf = new PDF(new \ImalH\PDFLib\Drivers\PdftkDriver());
+    // Use LocalPdftkDriver for form filling (Fixes bug in vendor driver)
+    require_once 'LocalPdftkDriver.php';
+    $pdf = new PDF(new LocalPdftkDriver());
     $pdf->from($source);
+    // fillForm in facade might not chain correctly if it returns bool.
+    // Facade inspection: public function fillForm(array $data, string $destination = null)
+    // It returns $this (chainable) or bool?
+    // In v3.1 Facade, fillForm returns $this if destination is null? 
+    // Actually, let's look at how I wrote it before: $pdf->fillForm($formData, $outputFile);
+    // If destination is provided, it executes immediately.
     $pdf->fillForm($formData, $outputFile);
 
     jsonResponse([
