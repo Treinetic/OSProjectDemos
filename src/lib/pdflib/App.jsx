@@ -111,6 +111,8 @@ function DemoModal({ feature, onClose }) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [formFields, setFormFields] = useState([]);
+  const [analyzing, setAnalyzing] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
