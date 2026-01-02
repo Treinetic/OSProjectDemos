@@ -310,6 +310,23 @@ function DemoModal({ feature, onClose }) {
                 <Icons.CheckCircle size={20} /> Success!
               </div>
 
+              {/* Text Result */}
+              {result.text_result && (
+                <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '1.2rem', fontWeight: 600, color: 'var(--primary)' }}>
+                  {result.text_result}
+                </div>
+              )}
+
+              {/* JSON Result */}
+              {result.json_result && (
+                <div style={{ marginTop: '1rem', textAlign: 'left' }}>
+                  <label style={{ fontWeight: 600, display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Extracted Data:</label>
+                  <pre style={{ background: 'var(--bg-main)', color: 'var(--text-main)', padding: '1rem', borderRadius: '8px', overflow: 'auto', maxHeight: '250px', fontSize: '0.85rem' }}>
+                    {JSON.stringify(result.json_result, null, 2)}
+                  </pre>
+                </div>
+              )}
+
               {/* Image Results */}
               {result.images && (
                 <div className="result-images">
@@ -345,6 +362,12 @@ function DemoModal({ feature, onClose }) {
                   <a href={result.image_url} target="_blank" rel="noreferrer" className="download-link">
                     Download Image <Icons.Download size={16} />
                   </a>
+                </div>
+              )}
+
+              {result.message && !result.image_url && !result.pdf_url && (
+                <div style={{ textAlign: 'center', fontSize: '1.1rem', fontWeight: 500, marginTop: '1rem' }}>
+                  {result.message}
                 </div>
               )}
             </div>

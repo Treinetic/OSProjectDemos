@@ -256,5 +256,44 @@ $pdf->from('form.pdf')
     },
     code: `$pdf = PDF::init();
 $pdf->convertFromHtml('<h1>Hi</h1>', 'out.pdf');`
+  },
+  {
+    id: 20,
+    title: "Form Inspection",
+    description: "Retrieve a list of form field names from the PDF.",
+    icon: "Search",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/get_form_fields.php`,
+    accept: ".pdf",
+    buttonText: "Inspect Fields",
+    code: `$pdf = new PDF(new PdftkDriver());
+$fields = $pdf->getFormFields('form.pdf');
+// Returns array of field names`
+  },
+  {
+    id: 21,
+    title: "Get Metadata",
+    description: "Extract metadata (Title, Author, etc.) from the PDF.",
+    icon: "Info",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/get_metadata.php`,
+    accept: ".pdf",
+    buttonText: "Extract Metadata",
+    code: `$pdf = new PDF(new PdftkDriver());
+$meta = $pdf->getMetadata('doc.pdf');
+// Returns array ['Title' => '...']`
+  },
+  {
+    id: 22,
+    title: "Page Count",
+    description: "Get the total number of pages in the document.",
+    icon: "Hash",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/page_count.php`,
+    accept: ".pdf",
+    buttonText: "Count Pages",
+    code: `$pdf = new PDF(new PdftkDriver());
+$pdf->from('doc.pdf');
+$count = $pdf->getNumberOfPages();`
   }
 ];

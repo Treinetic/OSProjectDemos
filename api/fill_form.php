@@ -16,7 +16,8 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'filled.pdf';
 
-    $pdf = PDF::init();
+    // Use PdftkDriver for form filling (Ghostscript doesn't support it)
+    $pdf = new PDF(new \ImalH\PDFLib\Drivers\PdftkDriver());
     $pdf->from($source);
     $pdf->fillForm($formData, $outputFile);
 
