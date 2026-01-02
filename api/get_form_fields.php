@@ -7,8 +7,9 @@ try {
     $paths = handleUpload('pdf');
     $source = $paths[0];
 
-    // Use PdftkDriver for form inspection
-    $pdf = new PDF(new PdftkDriver());
+    // Use LocalPdftkDriver for form inspection (Bug fix workaround)
+    require_once 'LocalPdftkDriver.php';
+    $pdf = new PDF(new LocalPdftkDriver());
 
     // Note: getFormFields in Facade might accept source OR assume loaded check.
     // Based on my view of PDF.php: public function getFormFields(string $source = null)
