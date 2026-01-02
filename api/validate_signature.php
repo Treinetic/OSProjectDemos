@@ -6,10 +6,11 @@ try {
     $paths = handleUpload('pdf');
     $source = $paths[0];
 
-    // Use OpenSSLDriver for signature validation
-    $pdf = new PDF(new \ImalH\PDFLib\Drivers\OpenSSLDriver());
-    $valid = $pdf->load($source)
-        ->validateSignature();
+    // Use OpenSslDriver for signature validation
+    $pdf = new PDF(new \ImalH\PDFLib\Drivers\OpenSslDriver());
+    // Driver method is validate(), not validateSignature()
+    $valid = $pdf->from($source)
+        ->validate($source);
 
     jsonResponse([
         'success' => true,
