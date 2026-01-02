@@ -2,28 +2,32 @@
     "packages": [
         {
             "name": "imal-h/pdf-box",
-            "version": "dev-master",
-            "version_normalized": "dev-master",
+            "version": "v3.1.4",
+            "version_normalized": "3.1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/imalhasaranga/PDFLib.git",
-                "reference": "37e190a70f1fc581c597ea00047cd8067f456145"
+                "reference": "66dcc462b85eb618eacc40a92554f8c900e0afa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imalhasaranga/PDFLib/zipball/37e190a70f1fc581c597ea00047cd8067f456145",
-                "reference": "37e190a70f1fc581c597ea00047cd8067f456145",
+                "url": "https://api.github.com/repos/imalhasaranga/PDFLib/zipball/66dcc462b85eb618eacc40a92554f8c900e0afa8",
+                "reference": "66dcc462b85eb618eacc40a92554f8c900e0afa8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.0"
+                "ext-fileinfo": "*",
+                "php": ">=8.1",
+                "symfony/process": "^6.4 || ^7.0",
+                "tecnickcom/tcpdf": "^6.10"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*",
-                "scrutinizer/ocular": "~1.1"
+                "illuminate/support": "^10.0 || ^11.0",
+                "laravel/pint": "^1.13",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.0"
             },
-            "time": "2025-12-24T13:29:48+00:00",
-            "default-branch": true,
+            "time": "2026-01-02T08:34:47+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -33,7 +37,13 @@
             },
             "scripts": {
                 "test": [
-                    "phpunit"
+                    "vendor/bin/phpunit"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "analyze": [
+                    "vendor/bin/phpstan analyse src --level 5"
                 ]
             },
             "license": [
@@ -47,22 +57,168 @@
                     "role": "CEO"
                 }
             ],
-            "description": "Current Release of PDFlib provide you methods to convert PDF to Images as well as Images to PDF.",
+            "description": "The most advanced, driver-based PDF manipulation library for PHP v3.0. Supports Ghostscript, Chrome Headless (HTML to PDF), OpenSSL (Signing), and PDFtk (Forms).",
             "homepage": "https://github.com/imalhasaranga/PDFLib.git",
             "keywords": [
-                "GhostScript",
-                "Imal hasaranga",
-                "PDFlib for Php",
-                "convert",
-                "images to pdf",
-                "pdf to images",
-                "php wrapper"
+                "chrome-headless",
+                "digital-signature",
+                "driver-based",
+                "form-filling",
+                "ghostscript",
+                "html-to-pdf",
+                "manipulation",
+                "pdf",
+                "pdftk",
+                "php"
             ],
             "support": {
-                "source": "https://github.com/imalhasaranga/PDFLib/tree/2.0.1",
-                "issues": "https://github.com/imalhasaranga/PDFLib/issues"
+                "issues": "https://github.com/imalhasaranga/PDFLib/issues",
+                "source": "https://github.com/imalhasaranga/PDFLib",
+                "docs": "https://github.com/imalhasaranga/PDFLib/tree/master/docs"
             },
             "install-path": "../imal-h/pdf-box"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v7.4.3",
+            "version_normalized": "7.4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "2f8e1a6cdf590ca63715da4d3a7a3327404a523f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/2f8e1a6cdf590ca63715da4d3a7a3327404a523f",
+                "reference": "2f8e1a6cdf590ca63715da4d3a7a3327404a523f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "time": "2025-12-19T10:00:43+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Executes commands in sub-processes",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/process/tree/v7.4.3"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../symfony/process"
+        },
+        {
+            "name": "tecnickcom/tcpdf",
+            "version": "6.10.1",
+            "version_normalized": "6.10.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "7a2701251e5d52fc3d508fd71704683eb54f5939"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/7a2701251e5d52fc3d508fd71704683eb54f5939",
+                "reference": "7a2701251e5d52fc3d508fd71704683eb54f5939",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=7.1.0"
+            },
+            "time": "2025-11-21T10:58:21+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/tecnickcom/TCPDF/issues",
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.10.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/donate/?hosted_button_id=NZUEC5XS8MFBJ",
+                    "type": "custom"
+                }
+            ],
+            "install-path": "../tecnickcom/tcpdf"
         },
         {
             "name": "treinetic/imageartist",

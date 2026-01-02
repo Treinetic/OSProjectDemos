@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
     libmagickwand-dev \
     ghostscript \
     tesseract-ocr \
+    pdftk \
+    chromium \
+    poppler-utils \
     git \
     unzip \
     && rm -rf /var/lib/apt/lists/*

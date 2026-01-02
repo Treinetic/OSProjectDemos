@@ -12,14 +12,15 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'ocr_result.pdf';
 
-    $pdfLib = new PDFLib();
-
-    // Attempt OCR
-    // This might take significantly longer than other operations
-    set_time_limit(300); // 5 minutes
+    // PDFLib v3.1.4 has broken/stubbed OCR wrapper
+    // Use TesseractDriver directly
+    $driver = new \ImalH\PDFLib\Drivers\TesseractDriver();
+    $driver->setSource($source);
 
     try {
-        $pdfLib->ocr($language, $outputFile, $source);
+        // Driver signature is ocr($destination)
+        // Language param is currently ignored by the driver in v3.1.4
+        $driver->ocr($outputFile);
     } catch (Exception $e) {
         // Enhance the error message for the demo user
         $msg = $e->getMessage();

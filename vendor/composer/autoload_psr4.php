@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Treinetic\\ImageArtist\\' => array($vendorDir . '/treinetic/imageartist/src'),
+    'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'ImalH\\PDFLib\\' => array($vendorDir . '/imal-h/pdf-box/src'),
 );

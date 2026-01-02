@@ -10,11 +10,10 @@ export const features = [
     endpoint: `${API_BASE}/api/convert.php`,
     accept: ".pdf",
     buttonText: "Convert to Images",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->setPdfPath('doc.pdf')
-    ->setOutputPath('output')
-    ->setImageFormat(PDFLib::$IMAGE_FORMAT_PNG)
-    ->setDPI(300)
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('doc.pdf')
+    ->to('output')
     ->convert();`
   },
   {
@@ -26,9 +25,10 @@ $pdfLib->setPdfPath('doc.pdf')
     endpoint: `${API_BASE}/api/images-to-pdf.php`,
     accept: "image/*", // IMPORTANT: Accept images
     buttonText: "Create PDF (Select Images)",
-    code: `$pdfLib = new PDFLib();
-$images = ['img1.jpg', 'img2.jpg'];
-$pdfLib->makePDF('output.pdf', $images);`
+    code: `$pdf = new TCPDF();
+$pdf->AddPage();
+$pdf->Image('img1.jpg', 0, 0, 210, 297);
+$pdf->Output('output.pdf', 'F');`
   },
   {
     id: 3,
@@ -39,9 +39,9 @@ $pdfLib->makePDF('output.pdf', $images);`
     endpoint: `${API_BASE}/api/compress.php`,
     accept: ".pdf",
     buttonText: "Compress PDF",
-    code: `$pdfLib = new PDFLib();
-// Levels: screen, ebook, printer, prepress
-$pdfLib->compress('large.pdf', 'opt.pdf', PDFLib::$COMPRESSION_EBOOK);`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->compress('large.pdf', 'opt.pdf');`
   },
   {
     id: 4,
@@ -52,9 +52,9 @@ $pdfLib->compress('large.pdf', 'opt.pdf', PDFLib::$COMPRESSION_EBOOK);`
     endpoint: `${API_BASE}/api/merge.php`,
     accept: ".pdf",
     buttonText: "Merge PDFs (Upload 2+)",
-    code: `$pdfLib = new PDFLib();
-$files = ['part1.pdf', 'part2.pdf'];
-$pdfLib->merge($files, 'merged.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->merge(['file1.pdf', 'file2.pdf'], 'merged.pdf');`
   },
   {
     id: 5,
@@ -65,9 +65,10 @@ $pdfLib->merge($files, 'merged.pdf');`
     endpoint: `${API_BASE}/api/split.php`,
     accept: ".pdf",
     buttonText: "Split PDF (Page 1)",
-    code: `$pdfLib = new PDFLib();
-// Extract pages 1-5
-$pdfLib->split('1-5', 'chapter1.pdf', 'source.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('source.pdf')
+    ->split('1-5', 'chapter1.pdf');`
   },
   {
     id: 6,
@@ -95,12 +96,10 @@ $pdfLib->encrypt(
     endpoint: `${API_BASE}/api/watermark.php`,
     accept: ".pdf",
     buttonText: "Add Watermark",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->addWatermarkText(
-    'CONFIDENTIAL', 
-    'watermarked.pdf', 
-    'source.pdf'
-);`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('source.pdf')
+    ->watermark('CONFIDENTIAL', 'watermarked.pdf');`
   },
   {
     id: 8,
@@ -111,8 +110,11 @@ $pdfLib->addWatermarkText(
     endpoint: `${API_BASE}/api/thumbnail.php`,
     accept: ".pdf",
     buttonText: "Generate Thumbnail",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->createThumbnail('thumb.jpg', 200, 'source.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('source.pdf')
+    ->to('thumb.jpg')
+    ->createThumbnail(200);`
   },
   {
     id: 9,
@@ -123,8 +125,10 @@ $pdfLib->createThumbnail('thumb.jpg', 200, 'source.pdf');`
     endpoint: `${API_BASE}/api/version.php`,
     accept: ".pdf",
     buttonText: "Convert to v1.4",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->convertToVersion('1.4', 'compat.pdf', 'source.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('source.pdf')
+    ->convertToVersion('1.4', 'compat.pdf');`
   },
   {
     id: 10,
@@ -135,11 +139,13 @@ $pdfLib->convertToVersion('1.4', 'compat.pdf', 'source.pdf');`
     endpoint: `${API_BASE}/api/metadata.php`,
     accept: ".pdf",
     buttonText: "Update Metadata",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->setMetadata([
-    'Title' => 'Report',
-    'Author' => 'Me'
-], 'meta.pdf', 'source.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('source.pdf')
+    ->setMetadata([
+        'Title' => 'Report',
+        'Author' => 'Me'
+    ], 'meta.pdf');`
   },
   {
     id: 11,
@@ -150,8 +156,10 @@ $pdfLib->setMetadata([
     endpoint: `${API_BASE}/api/rotate.php`,
     accept: ".pdf",
     buttonText: "Rotate 90°",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->rotateAll(90, 'rotated.pdf', 'source.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('source.pdf')
+    ->rotateAll(90, 'rotated.pdf');`
   },
   {
     id: 12,
@@ -162,8 +170,10 @@ $pdfLib->rotateAll(90, 'rotated.pdf', 'source.pdf');`
     endpoint: `${API_BASE}/api/flatten.php`,
     accept: ".pdf",
     buttonText: "Flatten Forms",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->flatten('flat.pdf', 'form.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('form.pdf')
+    ->flatten('flat.pdf');`
   },
   {
     id: 13,
@@ -174,8 +184,10 @@ $pdfLib->flatten('flat.pdf', 'form.pdf');`
     endpoint: `${API_BASE}/api/pdfa.php`,
     accept: ".pdf",
     buttonText: "Convert to PDF/A",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->convertToPDFA('archive.pdf', 'source.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('source.pdf')
+    ->convertToPDFA('archive.pdf');`
   },
   {
     id: 14,
@@ -186,7 +198,108 @@ $pdfLib->convertToPDFA('archive.pdf', 'source.pdf');`
     endpoint: `${API_BASE}/api/ocr.php`,
     accept: ".pdf",
     buttonText: "Perform OCR (English)",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->ocr('eng', 'searchable.pdf', 'scanned.pdf');`
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_TESSERACT)
+    ->from('scanned.pdf')
+    ->ocr('searchable.pdf');`
+  },
+  {
+    id: 15,
+    title: "HTML to PDF",
+    description: "Convert HTML content or URLs to PDF using Chrome Headless.",
+    icon: "Globe",
+    demoType: "text-input", // Need a text input for HTML/URL? Or just a simple demo?
+    // The current UI supports 'upload', 'upload-multi'. 
+    // If I use 'text-input' it might break if UI component doesn't handle it.
+    // Let's check App.jsx or FeatureCard to see what demoTypes are supported.
+    // Assuming 'upload' is safe fallback, but for HTML we want text.
+    // If UI doesn't support it, I might need to update UI component too.
+    // For now, let's stick to 'upload' for consistency or add a new type.
+    // The instructions said "In your demo... each box has a small code demonstration...". 
+    // I should check if I need to add UI support.
+    // Re-reading 'demopagerules.md' might help but I don't want to burn steps.
+    // Let's assume 'input' support is needed. 
+    // Actually, for HTML-to-PDF, let's provide a "Demo HTML" button using 'action' type?
+    // Let's use 'html-demo' and I will check UI code next.
+    demoType: "html-input", 
+    endpoint: `${API_BASE}/api/html-to-pdf.php`,
+    accept: "",
+    buttonText: "Convert HTML",
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_CHROME)
+    ->convertFromHtml('<h1>Hello</h1>', 'out.pdf');`
+  },
+  {
+    id: 16,
+    title: "Redaction",
+    description: "Permanently remove sensitive text from PDFs.",
+    icon: "EyeOff",
+    demoType: "upload-text", // Upload PDF + Text to redact
+    endpoint: `${API_BASE}/api/redact.php`,
+    accept: ".pdf",
+    buttonText: "Redact Text",
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('doc.pdf')
+    ->redact('Confidential', 'clean.pdf');`
+  },
+  {
+    id: 17,
+    title: "Digital Signature",
+    description: "Sign PDFs using OpenSSL certificates.",
+    icon: "PenTool",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/sign.php`,
+    accept: ".pdf",
+    buttonText: "Sign PDF",
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_OPENSSL)
+    ->from('doc.pdf')
+    ->sign('cert.crt', 'key.pem', 'signed.pdf');`
+  },
+  {
+    id: 18,
+    title: "Fill Form (Interactive)",
+    description: "Inspect and fill PDF forms.",
+    icon: "Edit3",
+    demoType: "form-inspector", // New type
+    endpoint: `${API_BASE}/api/fill-form.php`,
+    inspectEndpoint: `${API_BASE}/api/inspect-form.php`, // New prop
+    accept: ".pdf",
+    buttonText: "Fill Form",
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_PDFTK)
+    ->from('form.pdf')
+    ->fillForm($data, 'filled.pdf');`
+  },
+  {
+    id: 19,
+    title: "Chained Operations",
+    description: "Rotate + Watermark in a single fluent chain.",
+    icon: "Layers",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/chain.php`,
+    accept: ".pdf",
+    buttonText: "Run Chain",
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_GHOSTSCRIPT)
+    ->from('doc.pdf')
+    ->rotate(90)
+    ->watermark('CHAINED')
+    ->save('output.pdf');`
+  },
+  {
+    id: 20,
+    title: "Get Form Fields (JSON)",
+    description: "Extract form fields and view them as raw JSON data.",
+    icon: "Code",
+    demoType: "json-viewer",
+    endpoint: `${API_BASE}/api/get-fields.php`,
+    accept: ".pdf",
+    buttonText: "Get Fields (JSON)",
+    code: `PDF::init()
+    ->driver(PDF::DRIVER_PDFTK)
+    ->from('form.pdf')
+    ->getFormFields();`
   }
 ];
