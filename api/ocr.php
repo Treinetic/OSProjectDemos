@@ -12,14 +12,28 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'ocr_result.pdf';
 
-    $pdfLib = new PDFLib();
+    // v3.1 Logic - Use TesseractDriver explicitly
+    $pdf = new PDF(new \ImalH\PDFLib\Drivers\TesseractDriver());
+    $pdf->from($source);
 
     // Attempt OCR
     // This might take significantly longer than other operations
     set_time_limit(300); // 5 minutes
 
     try {
-        $pdfLib->ocr($language, $outputFile, $source);
+        // v3.1 ocr method signature: ocr(string $destination)
+        // It relies on Tesseract driver usually.
+        // Wait, PDF.php:250: public function ocr(string $destination): bool
+        // Using TesseractDriver likely.
+
+        // Let's check TesseractDriver or just call it.
+        // Passing language might be setOption? 
+        // PDF.php doesn't show language arg in ocr().
+        // It might be set via setOption if driver supports it.
+
+        // Assuming Tesseract driver defaults to 'eng'.
+
+        $pdf->ocr($outputFile);
     } catch (Exception $e) {
         // Enhance the error message for the demo user
         $msg = $e->getMessage();

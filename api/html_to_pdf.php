@@ -15,8 +15,24 @@ try {
     $outputFile = $jobDir . 'converted_html.pdf';
 
     // Use ChromeHeadlessDriver for HTML conversion
-    // Using Mac path specifically for this dev environment
-    $pdf = new PDF(new \ImalH\PDFLib\Drivers\ChromeHeadlessDriver('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'));
+    // Logic to detect Chrome Path
+    $chromePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'; // Mac Default
+    if (!file_exists($chromePath)) {
+        // Fallback checks
+        $possiblePaths = [
+            '/usr/bin/chromium',
+            '/usr/bin/google-chrome',
+            '/usr/bin/chromium-browser'
+        ];
+        foreach ($possiblePaths as $p) {
+            if (file_exists($p)) {
+                $chromePath = $p;
+                break;
+            }
+        }
+    }
+
+    $pdf = new PDF(new \ImalH\PDFLib\Drivers\ChromeHeadlessDriver($chromePath));
 
     // Check if it's a URL or Raw HTML
     if (filter_var($html, FILTER_VALIDATE_URL)) {

@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once 'utils.php';
 
 use ImalH\PDFLib\PDF;
 
@@ -18,14 +19,6 @@ if (!file_exists($uploadDir))
     mkdir($uploadDir, 0777, true);
 if (!file_exists($outputDir))
     mkdir($outputDir, 0777, true);
-
-function jsonResponse($data, $code = 200)
-{
-    http_response_code($code);
-    header('Content-Type: application/json');
-    echo json_encode($data);
-    exit;
-}
 
 try {
     if (!isset($_FILES['pdf'])) {
@@ -40,9 +33,11 @@ try {
         throw new Exception('Failed to upload file');
     }
 
+    list($jobOutputDir, $jobId) = getJobDir();
+
     $pdf = PDF::init();
     $pdf->from($inputPath);
-    $pdf->setOutputPath($jobOutputDir);
+    $pdf->to($jobOutputDir);
     // v3.1 uses direct driver options
     $pdf->setOption('format', 'png');
     $pdf->setOption('resolution', 150);

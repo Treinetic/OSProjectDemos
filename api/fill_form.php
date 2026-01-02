@@ -17,14 +17,15 @@ try {
     $outputFile = $jobDir . 'filled.pdf';
 
     // Use PdftkDriver (v3.1.4 fixed bugs)
-    $pdf = new PDF(new \ImalH\PDFLib\Drivers\PdftkDriver());
+    $driver = new \ImalH\PDFLib\Drivers\PdftkDriver();
+    $pdf = new PDF($driver);
     $pdf->from($source);
-    // fillForm in facade might not chain correctly if it returns bool.
-    // Facade inspection: public function fillForm(array $data, string $destination = null)
-    // It returns $this (chainable) or bool?
-    // In v3.1 Facade, fillForm returns $this if destination is null? 
-    // Actually, let's look at how I wrote it before: $pdf->fillForm($formData, $outputFile);
-    // If destination is provided, it executes immediately.
+
+    error_log("Form Data Received: " . print_r($formData, true));
+    file_put_contents('debug_data.txt', print_r($formData, true));
+    error_log("Source File: " . $source);
+    error_log("Driver: " . get_class($driver));
+
     $pdf->fillForm($formData, $outputFile);
 
     jsonResponse([

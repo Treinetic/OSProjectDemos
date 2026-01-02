@@ -8,11 +8,12 @@ export const features = [
     endpoint: "http://localhost:8000/api/convert.php",
     accept: ".pdf",
     buttonText: "Convert to Images",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->setPdfPath('doc.pdf')
-    ->setOutputPath('output')
-    ->setImageFormat(PDFLib::$IMAGE_FORMAT_PNG)
-    ->setDPI(300)
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('doc.pdf')
+    ->to('output_dir')
+    ->setOption('format', 'png')
+    ->setOption('resolution', 300)
     ->convert();`
   },
   {
@@ -24,9 +25,10 @@ $pdfLib->setPdfPath('doc.pdf')
     endpoint: "http://localhost:8000/api/images-to-pdf.php",
     accept: "image/*", // IMPORTANT: Accept images
     buttonText: "Create PDF (Select Images)",
-    code: `$pdfLib = new PDFLib();
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
 $images = ['img1.jpg', 'img2.jpg'];
-$pdfLib->makePDF('output.pdf', $images);`
+$pdf->merge($images, 'output.pdf');`
   },
   {
     id: 3,
@@ -37,9 +39,10 @@ $pdfLib->makePDF('output.pdf', $images);`
     endpoint: "http://localhost:8000/api/compress.php",
     accept: ".pdf",
     buttonText: "Compress PDF",
-    code: `$pdfLib = new PDFLib();
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
 // Levels: screen, ebook, printer, prepress
-$pdfLib->compress('large.pdf', 'opt.pdf', PDFLib::$COMPRESSION_EBOOK);`
+$pdf->compress('large.pdf', 'opt.pdf', 'ebook');`
   },
   {
     id: 4,
@@ -50,9 +53,10 @@ $pdfLib->compress('large.pdf', 'opt.pdf', PDFLib::$COMPRESSION_EBOOK);`
     endpoint: "http://localhost:8000/api/merge.php",
     accept: ".pdf",
     buttonText: "Merge PDFs (Upload 2+)",
-    code: `$pdfLib = new PDFLib();
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
 $files = ['part1.pdf', 'part2.pdf'];
-$pdfLib->merge($files, 'merged.pdf');`
+$pdf->merge($files, 'merged.pdf');`
   },
   {
     id: 5,
@@ -63,9 +67,10 @@ $pdfLib->merge($files, 'merged.pdf');`
     endpoint: "http://localhost:8000/api/split.php",
     accept: ".pdf",
     buttonText: "Split PDF (Page 1)",
-    code: `$pdfLib = new PDFLib();
-// Extract pages 1-5
-$pdfLib->split('1-5', 'chapter1.pdf', 'source.pdf');`
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('source.pdf')
+    ->split('1-5', 'chapter1.pdf');`
   },
   {
     id: 6,
@@ -76,13 +81,10 @@ $pdfLib->split('1-5', 'chapter1.pdf', 'source.pdf');`
     endpoint: "http://localhost:8000/api/encrypt.php",
     accept: ".pdf",
     buttonText: "Encrypt PDF",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->encrypt(
-    'userPass', 
-    'ownerPass', 
-    'protected.pdf', 
-    'source.pdf'
-);`
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('source.pdf')
+    ->encrypt('userPass', 'ownerPass', 'protected.pdf');`
   },
   {
     id: 7,
@@ -93,12 +95,10 @@ $pdfLib->encrypt(
     endpoint: "http://localhost:8000/api/watermark.php",
     accept: ".pdf",
     buttonText: "Add Watermark",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->addWatermarkText(
-    'CONFIDENTIAL', 
-    'watermarked.pdf', 
-    'source.pdf'
-);`
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('source.pdf')
+    ->watermark('CONFIDENTIAL', 'watermarked.pdf');`
   },
   {
     id: 8,
@@ -109,8 +109,10 @@ $pdfLib->addWatermarkText(
     endpoint: "http://localhost:8000/api/thumbnail.php",
     accept: ".pdf",
     buttonText: "Generate Thumbnail",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->createThumbnail('thumb.jpg', 200, 'source.pdf');`
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('source.pdf')
+    ->thumbnail('thumb.jpg', 200);`
   },
   {
     id: 9,
@@ -121,8 +123,8 @@ $pdfLib->createThumbnail('thumb.jpg', 200, 'source.pdf');`
     endpoint: "http://localhost:8000/api/version.php",
     accept: ".pdf",
     buttonText: "Convert to v1.4",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->convertToVersion('1.4', 'compat.pdf', 'source.pdf');`
+    code: `// Feature deprecated in v3.1
+// Please check documentation for alternatives.`
   },
   {
     id: 10,
@@ -133,11 +135,13 @@ $pdfLib->convertToVersion('1.4', 'compat.pdf', 'source.pdf');`
     endpoint: "http://localhost:8000/api/metadata.php",
     accept: ".pdf",
     buttonText: "Update Metadata",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->setMetadata([
-    'Title' => 'Report',
-    'Author' => 'Me'
-], 'meta.pdf', 'source.pdf');`
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('source.pdf')
+    ->setMetadata([
+        'Title' => 'Report',
+        'Author' => 'Me'
+    ], 'meta.pdf');`
   },
   {
     id: 11,
@@ -148,8 +152,10 @@ $pdfLib->setMetadata([
     endpoint: "http://localhost:8000/api/rotate.php",
     accept: ".pdf",
     buttonText: "Rotate 90°",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->rotateAll(90, 'rotated.pdf', 'source.pdf');`
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('source.pdf')
+    ->rotate(90, 'rotated.pdf');`
   },
   {
     id: 12,
@@ -160,8 +166,10 @@ $pdfLib->rotateAll(90, 'rotated.pdf', 'source.pdf');`
     endpoint: "http://localhost:8000/api/flatten.php",
     accept: ".pdf",
     buttonText: "Flatten Forms",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->flatten('flat.pdf', 'form.pdf');`
+    code: `use ImalH\\PDFLib\\PDF;
+$pdf = PDF::init();
+$pdf->from('form.pdf')
+    ->flatten('flat.pdf');`
   },
   {
     id: 13,
@@ -172,8 +180,8 @@ $pdfLib->flatten('flat.pdf', 'form.pdf');`
     endpoint: "http://localhost:8000/api/pdfa.php",
     accept: ".pdf",
     buttonText: "Convert to PDF/A",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->convertToPDFA('archive.pdf', 'source.pdf');`
+    code: `// Feature deprecated in v3.1
+// PDF/A conversion requires specialized driver config.`
   },
   {
     id: 14,
@@ -184,7 +192,12 @@ $pdfLib->convertToPDFA('archive.pdf', 'source.pdf');`
     endpoint: "http://localhost:8000/api/ocr.php",
     accept: ".pdf",
     buttonText: "Perform OCR (English)",
-    code: `$pdfLib = new PDFLib();
-$pdfLib->ocr('eng', 'searchable.pdf', 'scanned.pdf');`
+    code: `use ImalH\\PDFLib\\PDF;
+use ImalH\\PDFLib\\Drivers\\TesseractDriver;
+
+// OCR requires explicit Tesseract driver
+$pdf = new PDF(new TesseractDriver());
+$pdf->from('scanned.pdf')
+    ->ocr('searchable.pdf');`
   }
 ];

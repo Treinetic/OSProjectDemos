@@ -3,7 +3,7 @@
         'name' => 'antigravity/pdflib-demo',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '6386209a54c5eef17768c694f9ae0fe6c0032802',
+        'reference' => 'd0f2b9f1ea388831579571ca751dbe056270ef0d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'antigravity/pdflib-demo' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6386209a54c5eef17768c694f9ae0fe6c0032802',
+            'reference' => 'd0f2b9f1ea388831579571ca751dbe056270ef0d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
