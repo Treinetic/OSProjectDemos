@@ -199,5 +199,62 @@ $pdfLib->load('source.pdf')
     code: `$pdfLib = new PDFLib();
 $valid = $pdfLib->load('signed.pdf')
     ->validateSignature();`
+  },
+  {
+    id: 17,
+    title: "Digital Signing",
+    description: "Sign PDFs with a Certificate and Private Key.",
+    icon: "PenTool",
+    demoType: "upload-custom", // New type for complex inputs
+    endpoint: `${API_BASE}/api/sign.php`,
+    accept: ".pdf",
+    buttonText: "Sign PDF",
+    customInputs: [ // Array of inputs
+        { name: "certificate", label: "Certificate (.crt)", type: "file", accept: ".crt" },
+        { name: "private_key", label: "Private Key (.pem)", type: "file", accept: ".pem" },
+        { name: "password", label: "Password (Optional)", type: "password", placeholder: "Key Password" }
+    ],
+    code: `$pdf = PDF::init();
+$pdf->from('doc.pdf')
+    ->sign('cert.crt', 'key.pem');`
+  },
+  {
+    id: 18,
+    title: "Form Filling",
+    description: "Programmatically fill PDF forms using JSON data.",
+    icon: "Edit3",
+    demoType: "upload",
+    endpoint: `${API_BASE}/api/fill_form.php`,
+    accept: ".pdf",
+    buttonText: "Fill Form",
+    customInput: {
+      name: "form_data",
+      label: "Form Data (JSON)",
+      placeholder: '{"Name": "John Doe", "Date": "2024-01-01"}',
+      type: "textarea",
+      defaultValue: '{\n  "calc_subtotal": "550",\n  "calc_total": "600",\n  "cur_date": "2026-01-02",\n  "txt_first_name": "Imal",\n  "txt_last_name": "Hasaranga"\n}'
+    },
+    code: `$pdf = PDF::init();
+$data = ['Name' => 'John'];
+$pdf->from('form.pdf')
+    ->fillForm($data);`
+  },
+  {
+    id: 19,
+    title: "HTML to PDF",
+    description: "Convert HTML content or URLs to PDF.",
+    icon: "Globe",
+    demoType: "no-upload", // No PDF upload needed
+    endpoint: `${API_BASE}/api/html_to_pdf.php`,
+    buttonText: "Convert HTML",
+    customInput: {
+      name: "html_content",
+      label: "HTML Content or URL",
+      placeholder: "<h1>Hello World</h1> or https://example.com",
+      type: "textarea",
+      defaultValue: "<h1 style='color:red;'>Hello from PDFLib!</h1>"
+    },
+    code: `$pdf = PDF::init();
+$pdf->convertFromHtml('<h1>Hi</h1>', 'out.pdf');`
   }
 ];

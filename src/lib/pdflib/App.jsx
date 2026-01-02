@@ -114,7 +114,7 @@ function DemoModal({ feature, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file && feature.demoType !== 'no-upload') return;
 
     setLoading(true);
     setError(null);
@@ -134,10 +134,25 @@ function DemoModal({ feature, onClose }) {
       formData.append('degrees', 90);
     }
 
-    // Capture custom inputs
+    // Capture custom inputs (Single)
     if (feature.customInput) {
-      const inputVal = e.target.elements[feature.customInput.name].value;
-      formData.append(feature.customInput.name, inputVal);
+      const el = e.target.elements[feature.customInput.name];
+      // If textarea or text input
+      formData.append(feature.customInput.name, el.value);
+    }
+
+    // Capture Multiple Custom Inputs
+    if (feature.customInputs) {
+      feature.customInputs.forEach(input => {
+        const el = e.target.elements[input.name];
+        if (input.type === 'file') {
+          if (el.files[0]) {
+            formData.append(input.name, el.files[0]);
+          }
+        } else {
+          formData.append(input.name, el.value);
+        }
+      });
     }
 
     try {
@@ -172,28 +187,31 @@ function DemoModal({ feature, onClose }) {
 
         <div className="modal-body">
           <form onSubmit={handleSubmit}>
-            <div className="upload-zone">
-              <input
-                type="file"
-                className="upload-input"
-                accept={feature.accept}
-                multiple={feature.demoType === 'upload-multi'}
-                onChange={(e) => setFile(feature.demoType === 'upload-multi' ? e.target.files : e.target.files[0])}
-              />
-              <div style={{ pointerEvents: 'none' }}>
-                <Icons.UploadCloud size={48} color="var(--primary)" style={{ marginBottom: '1rem' }} />
-                <div style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '0.5rem' }}>
-                  {file ? (
-                    feature.demoType === 'upload-multi' && file.length
-                      ? `${file.length} files selected`
-                      : file.name
-                  ) : 'Click or Drag PDF Here'}
-                </div>
-                <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                  {feature.demoType === 'upload-multi' ? 'Supports multiple files' : 'Maximum file size 10MB'}
+            {/* Main File Upload (for standard demo types) */}
+            {feature.demoType !== 'no-upload' && (
+              <div className="upload-zone">
+                <input
+                  type="file"
+                  className="upload-input"
+                  accept={feature.accept}
+                  multiple={feature.demoType === 'upload-multi'}
+                  onChange={(e) => setFile(feature.demoType === 'upload-multi' ? e.target.files : e.target.files[0])}
+                />
+                <div style={{ pointerEvents: 'none' }}>
+                  <Icons.UploadCloud size={48} color="var(--primary)" style={{ marginBottom: '1rem' }} />
+                  <div style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '0.5rem' }}>
+                    {file ? (
+                      feature.demoType === 'upload-multi' && file.length
+                        ? `${file.length} files selected`
+                        : file.name
+                    ) : 'Click or Drag PDF Here'}
+                  </div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                    {feature.demoType === 'upload-multi' ? 'Supports multiple files' : 'Maximum file size 10MB'}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Hint for Encryption Demo */}
             {feature.id === 6 && (
@@ -212,27 +230,55 @@ function DemoModal({ feature, onClose }) {
               </div>
             )}
 
-            {/* Custom Input (e.g. for Redaction) */}
+            {/* Configured Single Custom Input */}
             {feature.customInput && (
               <div className="form-group" style={{ marginTop: '1rem' }}>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>
                   {feature.customInput.label}
                 </label>
-                <input
-                  type={feature.customInput.type}
-                  name={feature.customInput.name}
-                  placeholder={feature.customInput.placeholder}
-                  className="upload-input" // Reusing style for now
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}
-                  required
-                />
+                {feature.customInput.type === 'textarea' ? (
+                  <textarea
+                    name={feature.customInput.name}
+                    placeholder={feature.customInput.placeholder}
+                    defaultValue={feature.customInput.defaultValue}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)', minHeight: '100px', fontFamily: 'monospace' }}
+                    required
+                  />
+                ) : (
+                  <input
+                    type={feature.customInput.type}
+                    name={feature.customInput.name}
+                    placeholder={feature.customInput.placeholder}
+                    className="upload-input" // Reusing style for now
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}
+                    required
+                  />
+                )}
               </div>
             )}
+
+            {/* Configured Multiple Custom Inputs (e.g. key/cert files) */}
+            {feature.customInputs && feature.customInputs.map((input, idx) => (
+              <div key={idx} className="form-group" style={{ marginTop: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>
+                  {input.label}
+                </label>
+                <input
+                  type={input.type}
+                  name={input.name}
+                  accept={input.accept}
+                  placeholder={input.placeholder}
+                  className={input.type === 'file' ? 'upload-input-simple' : 'upload-input'}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}
+                // For files, we don't bind value, we handle via name in onSubmit
+                />
+              </div>
+            ))}
 
             <button
               type="submit"
               className="action-btn"
-              disabled={!file || loading}
+              disabled={(!file && feature.demoType !== 'no-upload') || loading}
             >
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
