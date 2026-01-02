@@ -289,7 +289,7 @@ function DemoModal({ feature, onClose }) {
                     type={feature.customInput.type}
                     name={feature.customInput.name}
                     placeholder={feature.customInput.placeholder}
-                    className="upload-input" // Reusing style for now
+                    // removed className="upload-input"
                     style={{
                       width: '100%',
                       padding: '0.75rem',
@@ -350,7 +350,9 @@ function DemoModal({ feature, onClose }) {
                       <input
                         type="text"
                         name={field}
-                        className="upload-input"
+                        // removed className="upload-input" as it hides the input (opacity: 0)
+                        autoComplete="off"
+                        spellCheck="false"
                         style={{
                           width: '100%', padding: '0.5rem',
                           borderRadius: '6px',
