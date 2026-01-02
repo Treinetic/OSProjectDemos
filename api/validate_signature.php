@@ -6,8 +6,8 @@ try {
     $paths = handleUpload('pdf');
     $source = $paths[0];
 
-    // v3.1 Sequential Pipeline Pattern
-    $pdf = PDF::init();
+    // Use OpenSSLDriver for signature validation
+    $pdf = new PDF(new \ImalH\PDFLib\Drivers\OpenSSLDriver());
     $valid = $pdf->load($source)
         ->validateSignature();
 
