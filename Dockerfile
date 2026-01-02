@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     ghostscript \
     pdftk-java \
     tesseract-ocr \
+    chromium \
     git \
     unzip \
     && rm -rf /var/lib/apt/lists/*
@@ -73,7 +74,7 @@ RUN echo "<IfModule mod_rewrite.c>\n\
     RewriteCond %{REQUEST_FILENAME} !-f\n\
     RewriteCond %{REQUEST_FILENAME} !-d\n\
     RewriteRule ^ index.html [L]\n\
-</IfModule>" > /var/www/html/.htaccess
+    </IfModule>" > /var/www/html/.htaccess
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html

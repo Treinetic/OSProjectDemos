@@ -6,9 +6,8 @@ try {
     $paths = handleUpload('pdf');
     $source = $paths[0];
 
-    // Use LocalPdftkDriver for page count (Fixes bug in vendor driver)
-    require_once 'LocalPdftkDriver.php';
-    $pdf = new PDF(new LocalPdftkDriver());
+    // Use PdftkDriver (v3.1.4 fixed bugs)
+    $pdf = new PDF(new \ImalH\PDFLib\Drivers\PdftkDriver());
 
     // Facade getNumberOfPages
     $count = $pdf->getNumberOfPages($source);

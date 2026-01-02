@@ -315,8 +315,8 @@ function DemoModal({ feature, onClose }) {
                   name={input.name}
                   accept={input.accept}
                   placeholder={input.placeholder}
-                  className={input.type === 'file' ? 'upload-input-simple' : 'upload-input'}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}
+                  className={input.type === 'file' ? 'upload-input' : ''}
+                  style={input.type === 'file' ? {} : { width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text-main, #e2e8f0)' }}
                 // For files, we don't bind value, we handle via name in onSubmit
                 />
               </div>

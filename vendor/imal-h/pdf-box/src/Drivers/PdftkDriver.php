@@ -89,15 +89,9 @@ class PdftkDriver implements DriverInterface
             $destination,
             'flatten' // Always flatten for now
         ];
-        $command = [
-            $this->binaryPath,
-            $this->source,
-            'fill_form',
-            $fdfFile,
-            'output',
-            $destination,
-            'flatten'
-        ];
+
+
+        // Flatten logic moved to command array definition
 
 
         try {
@@ -196,8 +190,8 @@ class PdftkDriver implements DriverInterface
                 if (isset($currentField['FieldName'])) {
                     $fields[] = [
                         'name' => $currentField['FieldName'],
-                        'type' => $currentField['FieldType'] ?? 'Text',
-                        'options' => $currentField['Options'] ?? []
+                        'type' => $currentField['FieldType'] ?? 'Unknown',
+                        'options' => $currentField['FieldStateOption'] ?? []
                     ];
                 }
                 $currentField = [];
@@ -210,10 +204,10 @@ class PdftkDriver implements DriverInterface
                 $value = trim($parts[1]);
 
                 if ($key === 'FieldStateOption') {
-                    if (!isset($currentField['Options'])) {
-                        $currentField['Options'] = [];
+                    if (!isset($currentField[$key])) {
+                        $currentField[$key] = [];
                     }
-                    $currentField['Options'][] = $value;
+                    $currentField[$key][] = $value;
                 } else {
                     $currentField[$key] = $value;
                 }
@@ -223,8 +217,8 @@ class PdftkDriver implements DriverInterface
         if (isset($currentField['FieldName'])) {
             $fields[] = [
                 'name' => $currentField['FieldName'],
-                'type' => $currentField['FieldType'] ?? 'Text',
-                'options' => $currentField['Options'] ?? []
+                'type' => $currentField['FieldType'] ?? 'Unknown',
+                'options' => $currentField['FieldStateOption'] ?? []
             ];
         }
 
@@ -340,15 +334,27 @@ class PdftkDriver implements DriverInterface
     {
         throw new NotSupportedException("PdftkDriver does not support makePDF.");
     }
-    public function getNumberOfPages(string $s): int
+    public function getNumberOfPages(string $source): int
     {
-        // Use getMetadata to fetch page count
-        // "NumberOfPages" is a standard key from pdftk dump_data
-        $meta = $this->getMetadata($s);
-        if (isset($meta['NumberOfPages'])) {
-            return (int) $meta['NumberOfPages'];
+        if (!file_exists($source)) {
+            throw new \RuntimeException("Source file not found: " . $source);
         }
-        throw new \RuntimeException("Could not determine page count via Pdftk.");
+
+        $command = [$this->binaryPath, $source, 'dump_data'];
+
+        try {
+            $process = new Process($command);
+            $process->mustRun();
+            $output = $process->getOutput();
+
+            if (preg_match('/NumberOfPages: (\d+)/', $output, $matches)) {
+                return (int) $matches[1];
+            }
+
+            return 0;
+        } catch (ProcessFailedException $e) {
+            throw new \RuntimeException("Pdftk failed to count pages: " . $e->getMessage());
+        }
     }
     public function sign(string $c, string $k, string $d, array $o = []): bool
     {

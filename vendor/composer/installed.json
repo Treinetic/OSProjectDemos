@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "imal-h/pdf-box",
-            "version": "v3.1.3",
-            "version_normalized": "3.1.3.0",
+            "version": "v3.1.4",
+            "version_normalized": "3.1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/imalhasaranga/PDFLib.git",
-                "reference": "4c0dbbd7f8bebda0aaf2205fb3e580615b3d5c4e"
+                "reference": "66dcc462b85eb618eacc40a92554f8c900e0afa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imalhasaranga/PDFLib/zipball/4c0dbbd7f8bebda0aaf2205fb3e580615b3d5c4e",
-                "reference": "4c0dbbd7f8bebda0aaf2205fb3e580615b3d5c4e",
+                "url": "https://api.github.com/repos/imalhasaranga/PDFLib/zipball/66dcc462b85eb618eacc40a92554f8c900e0afa8",
+                "reference": "66dcc462b85eb618eacc40a92554f8c900e0afa8",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^10.0"
             },
-            "time": "2026-01-02T06:39:34+00:00",
+            "time": "2026-01-02T08:34:47+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {

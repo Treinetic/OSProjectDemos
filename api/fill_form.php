@@ -16,9 +16,8 @@ try {
     list($jobDir, $jobId) = getJobDir();
     $outputFile = $jobDir . 'filled.pdf';
 
-    // Use LocalPdftkDriver for form filling (Fixes bug in vendor driver)
-    require_once 'LocalPdftkDriver.php';
-    $pdf = new PDF(new LocalPdftkDriver());
+    // Use PdftkDriver (v3.1.4 fixed bugs)
+    $pdf = new PDF(new \ImalH\PDFLib\Drivers\PdftkDriver());
     $pdf->from($source);
     // fillForm in facade might not chain correctly if it returns bool.
     // Facade inspection: public function fillForm(array $data, string $destination = null)
